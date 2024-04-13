@@ -1,61 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed;
-    public float groundDist;
-    public float jumpForce;
+    public float moveSpeed = 3f;
+    public float jumpForce = 5f;
 
-    public LayerMask terrainLayer;
-    public Rigidbody rb;
-    public SpriteRenderer sr;
+    public bool walking = false;
+    private int groundVar = 0;
+    private int jumpVar = 1;
 
-    public Transform groundPoint;
-    private bool isGrounded;
+    protected Rigidbody rb;
+    protected Vector3 size;
+    protected SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        size = this.GetComponent<Collider>().bounds.size;
+        rb = this.GetComponent<Rigidbody>();
+        sr = this.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        RaycastHit hit;
-        Vector3 castPos = transform.position;
-        castPos.y += 1;
-        if (Physics.Raycast(castPos, -transform.up, out hit, Mathf.Infinity, terrainLayer))
+        Vector3 newVel = Input.GetAxis("Horizontal") * Vector3.right * moveSpeed;     //Edit in project settings input manager
+        sr.flipX = newVel.x > 0 ? false : newVel.x < 0 ? true : sr.flipX;
+        walking = newVel.x != 0;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, size.y / 2 + 0.05f))
+            groundVar = 0;
+        else if (groundVar == 0)
+            groundVar = 1;
+
+        if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Jump") > 0) && groundVar < jumpVar)
         {
-            if (hit.collider != null)
-            {
-                Vector3 movePos = transform.position;
-                movePos.y = hit.point.y + groundDist;
-                transform.position = movePos;
-            }
+            Debug.Log("Jump");
+            groundVar += 1;
+            newVel.y = jumpForce;
+        }
+        else
+        {
+            newVel.y = rb.velocity.y;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        Vector3 moveDir = new Vector3(x, 0, y).normalized;
-        rb.velocity = new Vector3(moveDir.x* speed, rb.velocity.y, moveDir.z* speed);
-
-        if (x != 0 && x < 0)
-        {
-            sr.flipX = true;
-        }
-        else if (x != 0 && x > 0)
-        {
-            sr.flipX = false;
-        }
-
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, terrainLayer);
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            // Apply vertical force to jump
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        rb.velocity = newVel;
     }
 }

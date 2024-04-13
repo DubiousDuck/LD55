@@ -17,14 +17,14 @@ public class EnemyAI : MonoBehaviour
     protected Vector3 targetPos;
     protected Rigidbody rb;
 
-    public void Start()
+    public virtual void Start()
     {
         targetPos = this.transform.position;
         rb = this.GetComponent<Rigidbody>();
         updateTarget(GameObject.Find("Player"));
     }
 
-    public void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         DrawDebugLines();
         if (target != null)
@@ -32,8 +32,8 @@ public class EnemyAI : MonoBehaviour
             rb.velocity = Vector3.zero;
             lookForTarget();
             if (targetPos != this.transform.position && !stunned)
-                if (inRange(targetPos) && !attacking)
-                    attackTarget();
+                if (inRange(target.transform.position) && !attacking)
+                    StartCoroutine(attackTarget());
                 else if (!attacking)
                     moveToTarget(targetPos);
         }
@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
         Debug.DrawRay(this.transform.position, dir * attackRange, Color.red);
     }
 
-    public void lookForTarget()
+    public virtual void lookForTarget()
     {
         Vector3 dir = Vector3.Normalize(target.transform.position - this.transform.position);
         Ray ray = new Ray(this.transform.position, dir);
@@ -70,7 +70,7 @@ public class EnemyAI : MonoBehaviour
         this.target = target;
     }
 
-    public void moveToTarget(Vector3 pos)
+    public virtual void moveToTarget(Vector3 pos)
     {
         Vector3 diff = targetPos - this.transform.position;
         if (diff.magnitude > moveSpeed)
@@ -78,16 +78,15 @@ public class EnemyAI : MonoBehaviour
         rb.velocity = diff;
     }
 
-    public IEnumerator attackTarget()
+    public virtual IEnumerator attackTarget()
     {
-        Debug.Log("Attacking");
         attacking = true;
         //do stuff
         yield return new WaitForSeconds(attackTime);
         attacking = false;
     }
 
-    public void takeDamage(int damage, int stunTime, GameObject damager = null)
+    public virtual void takeDamage(float damage, float stunTime = 0, GameObject damager = null)
     {
         health -= damage;
         StartCoroutine(stun(stunTime));
@@ -95,7 +94,7 @@ public class EnemyAI : MonoBehaviour
             updateTarget(damager);
     }
 
-    public IEnumerator stun(int sec)
+    public IEnumerator stun(float sec)
     {
         stunned = true;
         yield return new WaitForSeconds(sec);

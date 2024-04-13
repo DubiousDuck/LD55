@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Resource
+  - Platform
+  - Terrain
+  - Enemies
+  - Allies
   layers:
   - Default
   - TransparentFX
@@ -13,9 +17,9 @@ TagManager:
   - Water
   - UI
   - Terrain
-  - 
-  - 
-  - 
+  - Platform
+  - Allies
+  - Enemies
   - 
   - 
   - 
