@@ -6,6 +6,7 @@ public class SkillBarManager : MonoBehaviour
 {
     public const int BOX_COUNT = 5;
     [SerializeField] List<SkillBox> skillBoxList;
+    [SerializeField] SkillManager skillManager;
     bool[] stateList = new bool[BOX_COUNT];
 
     void Start()
@@ -38,9 +39,11 @@ public class SkillBarManager : MonoBehaviour
         if (stateList[index]){
                 skillBoxList[index].deactivate();
                 stateList[index] = false;
+                skillManager.SetState(index, false);
             }else{
                 skillBoxList[index].activate();
-                stateList[index] = true;   
+                stateList[index] = true;
+                skillManager.SetState(index, true);   
             }
     }
     //Thanks ChatGPT
@@ -63,7 +66,7 @@ public class SkillBarManager : MonoBehaviour
         }
     }
 
-    void reset_box_state(){
+    public void reset_box_state(){
         for (int i = 0; i < stateList.Length; i++){
             stateList[i] = false;
         }
