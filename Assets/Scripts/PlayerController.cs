@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float jumpForce;
     public float speed;
     public float groundDist;
+    public bool isGrounded;
+    public LayerMask groundMask;
 
     public LayerMask terrainLayer;
     public Rigidbody rb;
@@ -14,7 +17,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>(); // Corrected the typo here
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -46,5 +49,20 @@ public class PlayerController : MonoBehaviour
         {
             sr.flipX = false;
         }
+
+        // Check if the player is grounded
+        isGrounded = Physics.Raycast(transform.position, -Vector3.up, groundDist, groundMask);
+
+        // Jumping
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, 0f); // Set y velocity to jumpForce
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 0.5f, rb.velocity.z);
+        }
+
     }
 }
