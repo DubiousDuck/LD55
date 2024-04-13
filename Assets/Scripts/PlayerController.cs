@@ -6,13 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
     public float groundDist;
+    public float jumpForce;
 
     public LayerMask terrainLayer;
     public Rigidbody rb;
     public SpriteRenderer sr;
 
-    public float jumpForce;
-    public LayerMask whatIsGround;
     public Transform groundPoint;
     private bool isGrounded;
 
@@ -52,7 +51,7 @@ public class PlayerController : MonoBehaviour
             sr.flipX = false;
         }
 
-        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, whatIsGround))
+        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, terrainLayer))
         {
             isGrounded = true;
         }
@@ -63,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.velocity += new Vector3(0f, jumpForce, 0f);
+            rb.velocity += new Vector3(rb.velocity.x, jumpForce, 0f);
         }
     }
 }
