@@ -14,12 +14,13 @@ public class PlayerController : MonoBehaviour
 
     protected Rigidbody rb;
     protected Vector3 size;
+    protected float sizeBuffer = 0.01f;
     protected SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
     {
-        size = this.GetComponent<Collider>().bounds.size;
+        size = this.GetComponent<Collider>().bounds.size * (1 + sizeBuffer * 2);
         rb = this.GetComponent<Rigidbody>();
         sr = this.GetComponent<SpriteRenderer>();
     }
@@ -31,14 +32,13 @@ public class PlayerController : MonoBehaviour
         sr.flipX = newVel.x > 0 ? false : newVel.x < 0 ? true : sr.flipX;
         walking = newVel.x != 0;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, size.y / 2 + 0.05f))
+        if (Physics.Raycast(transform.position, Vector3.down, size.y / 2 + 0.05f))
             groundVar = 0;
         else if (groundVar == 0)
             groundVar = 1;
 
         if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Jump") > 0) && groundVar < jumpVar)
         {
-            Debug.Log("Jump");
             groundVar += 1;
             newVel.y = jumpForce;
         }

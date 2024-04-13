@@ -16,11 +16,16 @@ public class EnemyAI : MonoBehaviour
     protected GameObject target;
     protected Vector3 targetPos;
     protected Rigidbody rb;
+    protected SpriteRenderer sr;
+    protected Vector3 size;
+    protected float sizeBuffer = 0.01f;
 
     public virtual void Start()
     {
         targetPos = this.transform.position;
         rb = this.GetComponent<Rigidbody>();
+        sr = this.GetComponent<SpriteRenderer>();
+        size = this.GetComponent<Collider>().bounds.size * (1 + 2 * sizeBuffer);
         updateTarget(GameObject.Find("Player"));
     }
 
@@ -29,14 +34,20 @@ public class EnemyAI : MonoBehaviour
         DrawDebugLines();
         if (target != null)
         {
-            rb.velocity = Vector3.zero;
             lookForTarget();
             if (targetPos != this.transform.position && !stunned)
                 if (inRange(target.transform.position) && !attacking)
-                    StartCoroutine(attackTarget());
+                    StartCoroutine(attackEnumerator());
                 else if (!attacking)
                     moveToTarget(targetPos);
         }
+        if (attacking)
+        {
+            Vector3 diff = targetPos - this.transform.position;
+            sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
+        }
+        else
+            sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
     }
 
     public void DrawDebugLines()
@@ -78,12 +89,17 @@ public class EnemyAI : MonoBehaviour
         rb.velocity = diff;
     }
 
-    public virtual IEnumerator attackTarget()
+    private IEnumerator attackEnumerator()
     {
         attacking = true;
-        //do stuff
+        this.attackTarget();
         yield return new WaitForSeconds(attackTime);
         attacking = false;
+    }
+
+    public virtual void attackTarget()
+    {
+        rb.velocity = Vector3.zero;
     }
 
     public virtual void takeDamage(float damage, float stunTime = 0, GameObject damager = null)

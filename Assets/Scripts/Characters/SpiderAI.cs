@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spider : EnemyAI
+public class SpiderAI : EnemyAI
 {
-    private Vector3 size;
-    private float sizeBuffer = 0.01f;   //buffer in all directions
-
-    public override void Start()
-    {
-        size = this.GetComponent<Collider>().bounds.size * (1 + 2 * this.sizeBuffer);
-        base.Start();
-    }
-
     public override void moveToTarget(Vector3 pos)
     {
         Vector3 diff = targetPos - this.transform.position;
@@ -20,9 +11,11 @@ public class Spider : EnemyAI
         Vector3 perpToFloor = diff - prlToFloor;
         Vector3 floorPos = this.transform.position - transform.up * this.size.y/2;
 
-        //check move in perp direction
+        //maximum move in perp direction
+        //check front if can move
+        //else check back if can move
         Vector3 newPos = this.transform.position + perpToFloor.normalized * moveSpeed;
-        if(true)
+        //if(Physics.OverlapSphere(newPos, sizeBuffer))
         
             newPos = this.transform.position + perpToFloor;
 
