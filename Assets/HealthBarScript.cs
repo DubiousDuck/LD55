@@ -18,3 +18,8 @@ public class HealthBarScript : MonoBehaviour
         slider.value = health;
     }
 }
+
+//public int maxHealth = 10; 
+//public int currentHealth; 
+//void Start() 
+//{currentHealth=MaxHealth}; 
