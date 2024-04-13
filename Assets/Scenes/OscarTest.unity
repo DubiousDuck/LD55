@@ -289,7 +289,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1388,6 +1388,7 @@ MonoBehaviour:
   manaBar: {fileID: 430906967}
   healthBar: {fileID: 1742934103}
   skillManager: {fileID: 681515423}
+  skillBarManager: {fileID: 1961882744}
   currentHealth: 0
   maxHealth: 100
   currentMana: 0
