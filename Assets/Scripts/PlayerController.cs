@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
 
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        Vector3 moveDir = new Vector3(x, 0, y);
-        rb.velocity = moveDir * speed;
+        Vector3 moveDir = new Vector3(x, 0, y).normalized;
+        rb.velocity = new Vector3(moveDir.x* speed, rb.velocity.y, moveDir.z* speed);
 
         if (x != 0 && x < 0)
         {
@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
         }
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, terrainLayer);
-
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             // Apply vertical force to jump
