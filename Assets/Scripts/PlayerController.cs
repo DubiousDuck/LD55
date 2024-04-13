@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float jumpForce;
     public float speed;
     public float groundDist;
-    public bool isGrounded;
-    public LayerMask groundMask;
+    public float jumpForce;
 
     public LayerMask terrainLayer;
     public Rigidbody rb;
     public SpriteRenderer sr;
+
+    public Transform groundPoint;
+    private bool isGrounded;
 
     // Start is called before the first frame update
     void Start()
@@ -50,19 +51,18 @@ public class PlayerController : MonoBehaviour
             sr.flipX = false;
         }
 
-        // Check if the player is grounded
-        isGrounded = Physics.Raycast(transform.position, -Vector3.up, groundDist, groundMask);
+        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, terrainLayer))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
 
-        // Jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, 0f); // Set y velocity to jumpForce
+            rb.velocity += new Vector3(rb.velocity.x, jumpForce, 0f);
         }
-
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-        {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 0.5f, rb.velocity.z);
-        }
-
     }
 }
