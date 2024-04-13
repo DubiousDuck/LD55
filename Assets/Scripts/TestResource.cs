@@ -8,6 +8,7 @@ public class TestResource : MonoBehaviour
     [SerializeField] HealthBar healthBar;
     [SerializeField] SkillManager skillManager;
     [SerializeField] SkillBarManager skillBarManager;
+    [SerializeField] PlayerDamageable playerDamageable;
     public float currentHealth = 0, maxHealth = 100;
     public float currentMana = 0, maxMana = 100;
 
@@ -16,10 +17,7 @@ public class TestResource : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
-        currentMana = maxMana;
-        manaBar.SetManaBar(currentMana);
-        healthBar.SetHealthBar(currentHealth);
+        maxHealth = playerDamageable.maxHealth;
         InvokeRepeating("manaUpdateCaller", 2.0f, 1.0f);
     }
 
@@ -27,9 +25,13 @@ public class TestResource : MonoBehaviour
     void Update()
     {
         manaCostPerSec = skillManager.totalManaCost;
-        if (Input.GetKeyDown(KeyCode.Space)){
-            currentHealth = currentHealth - 10;
-        }
+        manaBar.SetManaBar(currentMana);
+        healthBar.SetHealthBar(currentHealth);
+    }
+
+    public void ResetResource(){
+        currentHealth = maxHealth;
+        currentMana = maxMana;
         manaBar.SetManaBar(currentMana);
         healthBar.SetHealthBar(currentHealth);
     }
@@ -56,5 +58,10 @@ public class TestResource : MonoBehaviour
         if (currentMana > maxMana){
             currentMana = maxMana;
         }
+    }
+
+    public void updateHealth(float newHealth){
+        currentHealth = newHealth;
+        healthBar.SetHealthBar(currentHealth);
     }
 }
