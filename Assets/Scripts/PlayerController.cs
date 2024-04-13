@@ -51,18 +51,12 @@ public class PlayerController : MonoBehaviour
             sr.flipX = false;
         }
 
-        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, terrainLayer))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, terrainLayer);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.velocity += new Vector3(rb.velocity.x, jumpForce, 0f);
+            // Apply vertical force to jump
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 }
