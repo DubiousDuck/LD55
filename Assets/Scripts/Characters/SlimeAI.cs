@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class SlimeAI : EnemyAI
 {
+    private bool jumping = false;
     public float[] jumpForce = new float[] { 2, 5 };
     public override void moveToTarget(Vector3 pos)
     {
-        if (!attacking && Physics.Raycast(transform.position, Vector3.down, this.size.y / 2))
+        if (!jumping && Physics.Raycast(transform.position, Vector3.down, this.size.y / 2))
         {
             float randForce = Random.Range(jumpForce[0], jumpForce[1]);
             Vector3 diff = this.targetPos - this.transform.position;
@@ -19,14 +20,14 @@ public class SlimeAI : EnemyAI
 
     private IEnumerator jump(Vector3 jumpVel)
     {
-        this.attacking = true;
+        this.jumping = true;
         rb.velocity = jumpVel;
         while (Physics.Raycast(transform.position, Vector3.down, this.size.y / 2))
             yield return null;
         while (!Physics.Raycast(transform.position, Vector3.down, this.size.y / 2))
             yield return null;
         yield return new WaitForSeconds(this.attackTime);
-        this.attacking = false;
+        this.jumping = false;
     }
 
     public override void attackTarget()

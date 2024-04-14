@@ -99,7 +99,7 @@ MonoBehaviour:
   moveSpeed: 5
   attackTime: 1
   detectionRange: 10
-  attackRange: 2
+  attackRange: 1
 --- !u!212 &-3216212391917820676
 SpriteRenderer:
   m_ObjectHideFlags: 0
