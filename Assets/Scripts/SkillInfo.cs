@@ -5,16 +5,7 @@ using UnityEngine;
 public class SkillInfo : MonoBehaviour
 {
     [SerializeField] public float manaCost;
-    [SerializeField] string skillName;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] public string passiveName;
+    [SerializeField] public string summonName;
+    
 }
