@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 9000602197293102441}
   - component: {fileID: 666510447395183080}
   - component: {fileID: 4666712624396546340}
-  - component: {fileID: 7163250119722197844}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -79,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 012dc96f882548349982feb537474f93, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a9f6aa47c6a9c3a45b9df23df9948aee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,18 +125,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 256998339418698263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd6a874ac9500b44a8d2b044c6d1a72, type: 3}
+  m_Script: {fileID: 11500000, guid: ce9e6d898be640845a30f6b641ad96e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  groundDist: 0
-  jumpForce: 10
-  terrainLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  rb: {fileID: 9000602197293102441}
-  sr: {fileID: 1407520246963627609}
-  groundPoint: {fileID: 586055086621855212}
+  moveSpeed: 3
+  jumpForce: 5
+  walking: 0
 --- !u!136 &4666712624396546340
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -161,36 +154,6 @@ CapsuleCollider:
   m_Height: 1.28
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7163250119722197844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256998339418698263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &810495877516598875
 GameObject:
   m_ObjectHideFlags: 0

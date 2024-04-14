@@ -92,17 +92,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 921074661381512261}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e742b065f57f61a44869c17cfb1204d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0febe0728342a47449f0e1da9834967e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
   moveSpeed: 5
-  attackTime: 1.5
+  attackTime: 1
   detectionRange: 10
   attackRange: 5
   jumpForce:
-  - 3
-  - 6
+  - 2
+  - 5
 --- !u!212 &-850066518302542819
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -144,12 +144,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: ce01bc3a7a978b24e9973a520b432d3e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6f2e09be5f1928e41b870565409546a1, type: 3}
   m_Color: {r: 0, g: 0.5622641, b: 0.020612175, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
