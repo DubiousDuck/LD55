@@ -21,9 +21,11 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     }
     public void takeDamage(float amount, float stunTime, GameObject damager = null){
         health -= amount;
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         takeDamageCallBack(health);
     }
     public void takeDamageCallBack(float newHealth){
+        StartCoroutine(changeColorBack());
         testResource.updateHealth(newHealth);
         Debug.Log("i'm hurt");
     }
@@ -31,5 +33,10 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     public void regenHealthCallBack(float newHealth){
         testResource.updateHealth(newHealth);
         Debug.Log("i'm healed");
+    }
+
+    private IEnumerator changeColorBack(){
+        yield return new WaitForSeconds(0.5f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
