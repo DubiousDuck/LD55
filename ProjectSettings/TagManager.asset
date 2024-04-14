@@ -3,17 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemies
+  - Terrain
+  - Platform
+  - Allies
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Terrain
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Enemies
+  - Allies
+  - Platform
   - 
   - 
   - 
