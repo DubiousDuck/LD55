@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public bool walking = false;
     private int groundVar = 0;
     private int jumpVar = 1;
+    private bool facingRight = true;
 
     protected Rigidbody2D rb;
     protected Vector3 size;
@@ -30,7 +31,10 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 newVel = Input.GetAxis("Horizontal") * Vector2.right * moveSpeed;     //Edit in project settings input manager
-        sr.flipX = newVel.x > 0 ? false : newVel.x < 0 ? true : sr.flipX;
+        if((newVel.x > 0 && !facingRight) || (newVel.x < 0 && facingRight)){
+            transform.Rotate(0, 180, 0);
+            facingRight = !facingRight;
+        }
         walking = newVel.x != 0;
 
         if (Physics2D.Raycast(transform.position, Vector2.down, size.y/2))
