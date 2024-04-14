@@ -103,12 +103,21 @@ public class EnemyAI : MonoBehaviour
         rb.velocity = Vector3.zero;
     }
 
-    public virtual void takeDamage(float damage, float stunTime = 0, GameObject damager = null)
+    public void takeDamage(float damage, float stunTime = 0, GameObject damager = null)
     {
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         health -= damage;
         StartCoroutine(stun(stunTime));
         if (damager != null)
             updateTarget(damager);
+        takeDamageCallback();
+    }
+
+    public void takeDamageCallback(){
+        if (health <= 0){
+            Destroy(this.gameObject);
+        }
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(107, 107, 107, 255);
     }
 
     public IEnumerator stun(float sec)
