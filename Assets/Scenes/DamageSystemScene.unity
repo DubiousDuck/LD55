@@ -416,6 +416,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7819137977576407672, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
+      propertyPath: canAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7819137977576407672, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
+      propertyPath: attackCoolDown
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7868343307998120431, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
       propertyPath: health
       value: 100
