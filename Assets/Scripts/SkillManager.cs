@@ -5,7 +5,9 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     public static int SKILL_COUNT = 5;
-    [SerializeField] List<SkillInfo> skillList;
+    public bool[] isFull;
+    public GameObject[] slots;
+    [SerializeField] List<SkillInfo> skillsObtained;
     bool[] activated = new bool[SKILL_COUNT];
     public float totalManaCost;
     // Start is called before the first frame update
@@ -13,7 +15,9 @@ public class SkillManager : MonoBehaviour
     {
         DeactivateAll();
     }
-
+    void addSkillToList(SkillInfo skillInfo){
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -31,9 +35,9 @@ public class SkillManager : MonoBehaviour
 
     float updateManaCost(){
         float total = 0;
-        for(int i = 0; i < skillList.Count; i++){
+        for(int i = 0; i < skillsObtained.Count; i++){
             float boolToInt = activated[i]? 1:0;
-            total += skillList[i].manaCost * boolToInt;
+            total += skillsObtained[i].manaCost * boolToInt;
         }
         return total;
     }
