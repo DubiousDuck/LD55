@@ -368,6 +368,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5032929789133071393, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
+      propertyPath: weaponController
+      value: 
+      objectReference: {fileID: 2090969785}
     - target: {fileID: 5292289156095351761, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -655,6 +659,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83a661f1e55136a43ae3e234163e6b08, type: 3}
+--- !u!114 &2090969785 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7819137977576407672, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
+  m_PrefabInstance: {fileID: 281569990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 568e5409db7f7416b80ec95aa7ea3fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2123714874 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4913838848200296541, guid: 7bf54690e4d5d47298d06b1c8d7c2809, type: 3}

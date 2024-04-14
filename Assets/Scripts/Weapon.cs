@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public WeaponController weaponController;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnTriggerEnter2D(Collider2D collider){
+        if (collider.tag == "Enemies"){
+            
+        }
     }
 }

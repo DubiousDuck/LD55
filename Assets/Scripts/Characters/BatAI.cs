@@ -11,7 +11,7 @@ public class BatAI : EnemyAI
         RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, layerMask: mask);
         if (hitData)
         {
-            Debug.Log(hitData.collider.tag);
+            //Debug.Log(hitData.collider.tag);
             if (hitData.collider.tag == "Player")   //no wall between = update target position
                 targetPos = target.transform.position;
             else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
