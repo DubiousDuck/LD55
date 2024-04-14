@@ -10,9 +10,10 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected bool stunned = false;
     protected bool attacking = false;
     public float moveSpeed = 5f;
+    public float jumpForce = 5f;
     public float attackTime = 1f;
     public float detectionRange = 10f;
-    public float attackRange = 5f;
+    public float attackRange = 1f;
     public float  attackPower = 5f;
     public float stunDuration = 1.0f;
 
@@ -22,7 +23,8 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected SpriteRenderer sr;
     protected Vector2 size;
     protected float sizeBuffer = 0.01f;
-    protected int visionLayerMask;
+    protected LayerMask visionLayerMask;
+    protected bool grounded = true;
 
     public virtual void Start()
     {
@@ -30,6 +32,8 @@ public class EnemyAI : MonoBehaviour, Damageable
         rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
         size = this.GetComponent<Collider2D>().bounds.size * (1 + 2 * sizeBuffer);
+        attackRange += size.x / 2;
+        detectionRange += size.x / 2;
         visionLayerMask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag) | 1<< 2);
         updateTarget(GameObject.Find("Player"));
     }
@@ -94,11 +98,24 @@ public class EnemyAI : MonoBehaviour, Damageable
         Vector2 diff = targetPos - this.transform.position;
         rb.velocity = diff.normalized * moveSpeed;
     }
-    public virtual void walkToTarget()
+    public virtual void walkToTarget(bool jumpEnabled = true)
     {
-        Vector2 diff = targetPos - this.transform.position;
-        Vector2 prlToGround = diff - (Vector2)Vector3.Project(diff, -this.transform.up);
-        rb.velocity = diff.normalized * moveSpeed;
+        if (grounded)
+        {
+            Vector2 diff = targetPos - this.transform.position;
+            rb.velocity = new Vector3(diff.x < 0 ? -moveSpeed : diff.x > 0 ? moveSpeed : 0, rb.velocity.y, 0);
+
+            if (jumpEnabled && !Physics2D.Raycast(this.transform.position, rb.velocity, this.size.x / 2, 1 << LayerMask.NameToLayer("Terrain")))
+            {
+                rb.velocity += Vector2.up * jumpForce;
+                grounded = false;
+            }
+        }
+        else
+        {
+            Debug.DrawRay(this.transform.position, Vector2.down * this.size.y / 2, grounded ? Color.green : Color.red);
+            grounded = !Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, ~(1 << this.gameObject.layer));
+        }
     }
 
     public virtual IEnumerator attackEnumerator()
@@ -111,7 +128,7 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void attackTarget()
     {
-        rb.velocity = Vector2.zero;
+        //rb.velocity = Vector2.zero;
     }
 
     public void takeDamage(float damage, float stunTime = 0, GameObject damager = null)

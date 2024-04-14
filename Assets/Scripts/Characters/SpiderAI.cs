@@ -14,7 +14,7 @@ public class SpiderAI : EnemyAI
     private Vector3 lastPos;
     public override void Start()
     {
-        this.transform.Rotate(new Vector3((float)this.stickDir, 0, 0));
+        this.transform.Rotate(new Vector3(0, 0, (float)this.stickDir));
         wallMask = 1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer("Terrain");
         lastPos = this.transform.position;
         base.Start();
@@ -25,15 +25,23 @@ public class SpiderAI : EnemyAI
         if (initialized)
         {
             base.FixedUpdate();
-            if(attacking)
-                if ((this.targetPos - this.transform.position).magnitude < attackRange)
-                    move(false);
+            if (attacking && (this.targetPos - this.transform.position).magnitude < attackRange)
+                move(false);
+
+            Vector2 newPos = (Vector2)this.transform.position + rb.velocity * Time.deltaTime;
+            if (!Physics2D.Raycast(newPos, -transform.up, this.size.y / 2, wallMask))
+            {
+                this.rb.velocity = Vector2.zero;
+                this.transform.position = lastPos;
+            }
+            else
+            {
+                this.rb.velocity = rb.velocity;
+                lastPos = this.transform.position;
+            }
         }
         else if (!Physics2D.Raycast(this.transform.position, -this.transform.up, this.size.y / 2, wallMask))
-        {
             rb.velocity = -this.transform.up * moveSpeed;
-            Debug.DrawRay(this.transform.position, -this.transform.up * this.size.y / 2, Color.green);
-        }
         else
         {
             if (stickDir == StickDir.LEFT || stickDir == StickDir.RIGHT)
@@ -42,7 +50,6 @@ public class SpiderAI : EnemyAI
                 lockCoord = this.transform.position.y;
             initialized = true;
         }
-
     }
 
     public override void moveToTarget()
@@ -70,18 +77,6 @@ public class SpiderAI : EnemyAI
                 rb.velocity = Vector2.left;
         }
         rb.velocity *= towards ? moveSpeed : -runSpeed;
-
-        Vector2 newPos = (Vector2) this.transform.position + rb.velocity * Time.deltaTime;
-        if (!Physics2D.Raycast(newPos, -transform.up, this.size.y / 2, wallMask))
-        {
-            this.rb.velocity = Vector2.zero;
-            this.transform.position = lastPos;
-        }
-        else
-        {
-            this.rb.velocity = rb.velocity;
-            lastPos = this.transform.position;
-        }
     }
 
     public override void attackTarget()
