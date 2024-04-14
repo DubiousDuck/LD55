@@ -15,17 +15,17 @@ public class EnemyAI : MonoBehaviour
 
     protected GameObject target;
     protected Vector3 targetPos;
-    protected Rigidbody rb;
+    protected Rigidbody2D rb;
     protected SpriteRenderer sr;
-    protected Vector3 size;
+    protected Vector2 size;
     protected float sizeBuffer = 0.01f;
 
     public virtual void Start()
     {
         targetPos = this.transform.position;
-        rb = this.GetComponent<Rigidbody>();
+        rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
-        size = this.GetComponent<Collider>().bounds.size * (1 + 2 * sizeBuffer);
+        size = this.GetComponent<Collider2D>().bounds.size * (1 + 2 * sizeBuffer);
         updateTarget(GameObject.Find("Player"));
     }
 
@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour
         }
         if (attacking)
         {
-            Vector3 diff = targetPos - this.transform.position;
+            Vector2 diff = targetPos - this.transform.position;
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
         }
         else
@@ -52,14 +52,14 @@ public class EnemyAI : MonoBehaviour
 
     public void DrawDebugLines()
     {
-        Vector3 dir = Vector3.Normalize(target.transform.position - this.transform.position);
+        Vector2 dir = (target.transform.position - this.transform.position).normalized;
         Debug.DrawRay(this.transform.position, dir * detectionRange);
         Debug.DrawRay(this.transform.position, dir * attackRange, Color.red);
     }
 
     public virtual void lookForTarget()
     {
-        Vector3 dir = Vector3.Normalize(target.transform.position - this.transform.position);
+        Vector3 dir = (target.transform.position - this.transform.position).normalized;
         Ray ray = new Ray(this.transform.position, dir);
         if (Physics.Raycast(ray, out RaycastHit hitData, maxDistance: detectionRange))
         {

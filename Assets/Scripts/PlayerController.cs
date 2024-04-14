@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private int groundVar = 0;
     private int jumpVar = 1;
 
-    protected Rigidbody rb;
+    protected Rigidbody2D rb;
     protected Vector3 size;
     protected float sizeBuffer = 0.01f;
     protected SpriteRenderer sr;
@@ -21,19 +21,19 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        size = this.GetComponent<Collider>().bounds.size * (1 + sizeBuffer * 2);
-        rb = this.GetComponent<Rigidbody>();
+        size = this.GetComponent<Collider2D>().bounds.size * (1 + sizeBuffer * 2);
+        rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 newVel = Input.GetAxis("Horizontal") * Vector3.right * moveSpeed;     //Edit in project settings input manager
+        Vector2 newVel = Input.GetAxis("Horizontal") * Vector2.right * moveSpeed;     //Edit in project settings input manager
         sr.flipX = newVel.x > 0 ? false : newVel.x < 0 ? true : sr.flipX;
         walking = newVel.x != 0;
 
-        if (Physics.Raycast(transform.position, Vector3.down, size.y / 2 + 0.05f))
+        if (Physics2D.Raycast(transform.position, Vector2.down, size.y / 2 + 0.05f))
             groundVar = 0;
         else if (groundVar == 0)
             groundVar = 1;
