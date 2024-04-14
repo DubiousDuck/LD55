@@ -11,6 +11,7 @@ public class BatAI : EnemyAI
         RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, layerMask: mask);
         if (hitData)
         {
+            Debug.Log(hitData.collider.tag);
             if (hitData.collider.tag == "Player")   //no wall between = update target position
                 targetPos = target.transform.position;
             else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
@@ -18,9 +19,14 @@ public class BatAI : EnemyAI
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         if (System.Array.IndexOf(new string[] { "Platform", this.tag }, collision.collider.tag) !> -1)
-            Physics.IgnoreCollision(this.GetComponent<Collider>(), collision.collider, ignore: true);
+            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), collision.collider, ignore: true);
+
+        if (collision.gameObject.tag == "Player"){
+            collision.gameObject.GetComponent<PlayerDamageable>().takeDamage(attackPower);
+            Debug.Log("I hit player by " + attackPower + " hitpoints");
+        }
     }
 }

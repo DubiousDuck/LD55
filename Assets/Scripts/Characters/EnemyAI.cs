@@ -12,6 +12,7 @@ public class EnemyAI : MonoBehaviour
     public float attackTime = 1f;
     public float detectionRange = 10f;
     public float attackRange = 5f;
+    public float  attackPower = 5f;
 
     protected GameObject target;
     protected Vector3 targetPos;

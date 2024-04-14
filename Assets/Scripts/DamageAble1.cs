@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DamageAble1 : MonoBehaviour
 {
-    [SerializeField] public float health, maxHealth;
+    [SerializeField] public float health, maxHealth = 100;
     private float minHealth = 0;
 
     void Start()
@@ -17,7 +17,7 @@ public class DamageAble1 : MonoBehaviour
         if (health > maxHealth){
             health = maxHealth;
         }
-        regenHealthCallBack();
+        regenHealthCallBack(health);
     }
 
     public void takeDamage(float amount){
@@ -25,11 +25,11 @@ public class DamageAble1 : MonoBehaviour
         if (health < minHealth){
             Debug.Log(this.name + " is dead");
         }
-        takeDamageCallBack();
+        takeDamageCallBack(health);
     }
 
-    void regenHealthCallBack(){}
-    void takeDamageCallBack(){}
+    public virtual void regenHealthCallBack(float health){}
+    public virtual void takeDamageCallBack(float health){}
 
 
 }

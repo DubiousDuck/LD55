@@ -11,8 +11,9 @@ public class PlayerDamageable : DamageAble1
      testResource.ResetResource();   
     }
 
-    void takeDamageCallBack(float newHealth){
+    public override void takeDamageCallBack(float newHealth){
         updateResource(newHealth);
+        Debug.Log("i'm hurt");
     }
 
     void updateResource(float newHealth){

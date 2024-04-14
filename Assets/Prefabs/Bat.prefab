@@ -165,4 +165,5 @@ MonoBehaviour:
   moveSpeed: 5
   attackTime: 1
   detectionRange: 10
-  attackRange: 5
+  attackRange: 1.5
+  attackPower: 1
