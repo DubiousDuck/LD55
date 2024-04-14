@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, Damageable
 {
     public float health = 1;
     protected bool stunned = false;
@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 10f;
     public float attackRange = 5f;
     public float  attackPower = 5f;
+    public float stunDuration = 1.0f;
 
     protected GameObject target;
     protected Vector3 targetPos;
@@ -125,5 +126,9 @@ public class EnemyAI : MonoBehaviour
         stunned = true;
         yield return new WaitForSeconds(sec);
         stunned = false;
+    }
+
+    public virtual void regenHealth(float healthRegained){
+        //maybe we won't need this
     }
 }
