@@ -90,6 +90,7 @@ crashlytics-build.properties
 *.user
 *.userosscache
 *.sln.docstates
+*.vsconfig
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
