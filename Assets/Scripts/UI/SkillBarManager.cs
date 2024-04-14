@@ -7,7 +7,7 @@ public class SkillBarManager : MonoBehaviour
     public const int BOX_COUNT = 5;
     [SerializeField] List<SkillBox> skillBoxList;
     [SerializeField] SkillManager skillManager;
-    bool[] stateList = new bool[BOX_COUNT];
+    SkillBox.State[] stateList = new SkillBox.State[BOX_COUNT];
 
     void Start()
     {
@@ -36,13 +36,13 @@ public class SkillBarManager : MonoBehaviour
     }
     
     void set_box_state(int index){
-        if (stateList[index]){
+        if (stateList[index] == SkillBox.State.Activated){
                 skillBoxList[index].deactivate();
-                stateList[index] = false;
+                stateList[index] = skillBoxList[index].currState;
                 skillManager.SetState(index, false);
             }else{
                 skillBoxList[index].activate();
-                stateList[index] = true;
+                stateList[index] = skillBoxList[index].currState;
                 skillManager.SetState(index, true);   
             }
     }
@@ -67,11 +67,9 @@ public class SkillBarManager : MonoBehaviour
     }
 
     public void reset_box_state(){
-        for (int i = 0; i < stateList.Length; i++){
-            stateList[i] = false;
-        }
-        foreach(SkillBox box in skillBoxList){
-            box.deactivate();
+        for (int i = 0; i < skillBoxList.Count; i++){
+            skillBoxList[i].deactivate();
+            stateList[i] = skillBoxList[i].currState;
         }
     }
 }

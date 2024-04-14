@@ -1042,9 +1042,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 784270666374296567, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
+      propertyPath: summonName
+      value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 784270666374296567, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
+      propertyPath: passiveName
+      value: DoubleJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309485103229583551, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
+      propertyPath: passiveName
+      value: DoubleVision
+      objectReference: {fileID: 0}
     - target: {fileID: 4118794823689295603, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
       propertyPath: m_Name
       value: SkillManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5666128712032168966, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
+      propertyPath: summonName
+      value: Spider
+      objectReference: {fileID: 0}
+    - target: {fileID: 5666128712032168966, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
+      propertyPath: passiveName
+      value: WallJump
       objectReference: {fileID: 0}
     - target: {fileID: 6078862293384958456, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
       propertyPath: m_LocalPosition.x
