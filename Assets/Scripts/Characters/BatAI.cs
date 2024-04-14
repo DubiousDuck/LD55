@@ -18,9 +18,14 @@ public class BatAI : EnemyAI
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (System.Array.IndexOf(new string[] { "Platform", this.tag }, collision.collider.tag) !> -1)
-            Physics.IgnoreCollision(this.GetComponent<Collider>(), collision.collider, ignore: true);
+        //if (System.Array.IndexOf(new string[] { "Platform", this.tag }, collision.collider.tag) !> -1)
+            //Physics.IgnoreCollision(this.GetComponent<Collider2D>(), collision.collider, ignore: true);
+
+        if (collision.gameObject.tag == "Player"){
+            collision.gameObject.GetComponent<PlayerDamageable>().takeDamage(attackPower);
+            Debug.Log("I hit player by " + attackPower + " hitpoints");
+        }
     }
 }
