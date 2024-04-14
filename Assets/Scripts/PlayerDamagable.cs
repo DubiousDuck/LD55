@@ -10,7 +10,7 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     void Start()
     {
         health = maxHealth;
-        testResource.ResetResource();   
+        testResource.ResetResource();
     }
     public void regenHealth(float amount){
         health += amount;

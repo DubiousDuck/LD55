@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour, Damageable
 {
@@ -21,6 +22,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected SpriteRenderer sr;
     protected Vector2 size;
     protected float sizeBuffer = 0.01f;
+    protected int visionLayerMask;
 
     public virtual void Start()
     {
@@ -28,6 +30,7 @@ public class EnemyAI : MonoBehaviour, Damageable
         rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
         size = this.GetComponent<Collider2D>().bounds.size * (1 + 2 * sizeBuffer);
+        visionLayerMask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag) | 1<< 2);
         updateTarget(GameObject.Find("Player"));
     }
 
@@ -41,7 +44,7 @@ public class EnemyAI : MonoBehaviour, Damageable
                 if (inRange(target.transform.position) && !attacking)
                     StartCoroutine(attackEnumerator());
                 else if (!attacking)
-                    moveToTarget(targetPos);
+                    moveToTarget();
         }
         if (attacking)
         {
@@ -61,21 +64,24 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void lookForTarget()
     {
-        Vector3 dir = (target.transform.position - this.transform.position).normalized;
-        Ray ray = new Ray(this.transform.position, dir);
-        if (Physics.Raycast(ray, out RaycastHit hitData, maxDistance: detectionRange))
+        Vector2 dir = (target.transform.position - this.transform.position).normalized;
+        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, visionLayerMask);
+        if(hitData)
         {
-            if (hitData.collider.tag == "Player")   //no wall between = update target position
+            if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
+            {
+                this.target = hitData.collider.gameObject;
                 targetPos = target.transform.position;
+            }
             else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
                 targetPos = this.transform.position;
         }
     }
 
-    public bool inRange(Vector3 position, float range = -1)
+    public bool inRange(Vector2 position, float range = -1)
     {
         if (range < 0) range = this.attackRange;
-        return Vector3.Distance(this.transform.position, position) < range;
+        return Vector2.Distance(this.transform.position, position) < range;
     }
 
     public void updateTarget(GameObject target)
@@ -83,15 +89,19 @@ public class EnemyAI : MonoBehaviour, Damageable
         this.target = target;
     }
 
-    public virtual void moveToTarget(Vector3 pos)
+    public virtual void moveToTarget()
     {
-        Vector3 diff = targetPos - this.transform.position;
-        if (diff.magnitude > moveSpeed)
-            diff = Vector3.Normalize(diff) * moveSpeed;
-        rb.velocity = diff;
+        Vector2 diff = targetPos - this.transform.position;
+        rb.velocity = diff.normalized * moveSpeed;
+    }
+    public virtual void walkToTarget()
+    {
+        Vector2 diff = targetPos - this.transform.position;
+        Vector2 prlToGround = diff - (Vector2)Vector3.Project(diff, -this.transform.up);
+        rb.velocity = diff.normalized * moveSpeed;
     }
 
-    private IEnumerator attackEnumerator()
+    public virtual IEnumerator attackEnumerator()
     {
         attacking = true;
         this.attackTarget();
@@ -101,7 +111,7 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void attackTarget()
     {
-        rb.velocity = Vector3.zero;
+        rb.velocity = Vector2.zero;
     }
 
     public void takeDamage(float damage, float stunTime = 0, GameObject damager = null)

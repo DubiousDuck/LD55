@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6549139885406230403}
   - component: {fileID: 7819137977576407672}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: WeaponController
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 4335868237051717773}
   - component: {fileID: 2922026746037526667}
   - component: {fileID: 7868343307998120431}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -242,9 +242,9 @@ GameObject:
   - component: {fileID: 1583445165205693938}
   - component: {fileID: 3222131621324775584}
   - component: {fileID: 5032929789133071393}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -394,3 +394,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41de2d25c22954114828691a7f2acb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponController: {fileID: 0}

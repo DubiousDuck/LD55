@@ -7,7 +7,7 @@ public class SlimeAI : EnemyAI
 {
     private bool jumping = false;
     public float[] jumpForce = new float[] { 2, 5 };
-    public override void moveToTarget(Vector3 pos)
+    public override void moveToTarget()
     {
         if (!jumping && Physics.Raycast(transform.position, Vector3.down, this.size.y / 2))
         {
@@ -32,7 +32,7 @@ public class SlimeAI : EnemyAI
 
     public override void attackTarget()
     {
-        moveToTarget(this.target.transform.position);
+        moveToTarget();
     }
 
     public void OnCollisionEnter(Collision collision)

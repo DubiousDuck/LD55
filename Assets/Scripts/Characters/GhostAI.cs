@@ -5,6 +5,7 @@ using UnityEngine;
 public class GhostAI : EnemyAI
 {
     public float fadeSpeed = 0.05f;
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();

@@ -4,24 +4,12 @@ using UnityEngine;
 
 public class BatAI : EnemyAI
 {
-    public override void lookForTarget()
+    public override void attackTarget()
     {
-        LayerMask mask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag));
-        Vector3 dir = Vector3.Normalize(target.transform.position - this.transform.position);
-        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, layerMask: mask);
-        if (hitData)
-        {
-            //Debug.Log(hitData.collider.tag);
-            if (hitData.collider.tag == "Player")   //no wall between = update target position
-                targetPos = target.transform.position;
-            else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
-                targetPos = this.transform.position;
-        }
-    }
-    public override void attackTarget(){
          rb.velocity = Vector3.zero;
          target.GetComponent<Damageable>().takeDamage(attackPower, stunDuration, this.gameObject);
     }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (System.Array.IndexOf(new string[] { "Platform", this.tag }, collision.collider.tag) !> -1)
