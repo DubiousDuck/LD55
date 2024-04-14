@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         }
         walking = newVel.x != 0;
 
-        if (Physics2D.Raycast(transform.position + Vector3.down * size.y/2, Vector2.down, sizeBuffer))
+        if (Physics2D.Raycast(transform.position + Vector3.down * size.y/2, Vector2.down, sizeBuffer, ~(1 << 2)))
             groundVar = 0;
         else if (groundVar == 0)
             groundVar = 1;

@@ -6,6 +6,11 @@ public class GhostAI : EnemyAI
 {
     public float fadeSpeed = 0.05f;
 
+    public override void Start()
+    {
+        base.Start();
+    }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -25,12 +30,12 @@ public class GhostAI : EnemyAI
 
     public override void attackTarget()
     {
-        //this.rb.velocity = Vector3.zero;  //Comment out for swooping effect
+        this.moveToTarget();
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         if (System.Array.IndexOf(new string[] { "Platform", "Enemies", "Player", "Terrain" }, collision.collider.tag) !> -1)
-            Physics.IgnoreCollision(this.GetComponent<Collider>(), collision.collider, ignore: true);
+            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), collision.collider, ignore: true);
     }
 }
