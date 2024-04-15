@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6566762872079274817, guid: 2ba390291dade484a98fb24b7f0e546b, type: 3}
       propertyPath: summonManaCost
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6566762872079274817, guid: 2ba390291dade484a98fb24b7f0e546b, type: 3}
       propertyPath: passiveManaCost

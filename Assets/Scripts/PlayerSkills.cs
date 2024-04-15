@@ -48,6 +48,9 @@ public class PlayerSkills : MonoBehaviour
                 break;
 
         }
+        toBeSummoned.transform.parent = null;
+        toBeSummoned.tag = "Allies";
+        toBeSummoned.gameObject.layer = 7;
         summonArray.AddSummon(toBeSummoned);
     }
 

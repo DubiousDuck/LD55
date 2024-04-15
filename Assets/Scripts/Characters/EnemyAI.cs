@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     public float  attackPower = 5f;
     public float stunDuration = 1.0f;
     public Pickup soulDrop;
+   
 
     protected GameObject target;
     protected Vector3 targetPos;
@@ -30,6 +31,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected LayerMask visionLayerMask;
     protected LayerMask wallMask;
     protected bool grounded = false;
+    protected GameObject spawner;
 
     public virtual void Start()
     {
@@ -46,9 +48,9 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void FixedUpdate()
     {
-        DrawDebugLines();
         if (target != null)
         {
+            DrawDebugLines();
             lookForTarget();
             if (targetPos != this.transform.position && !stunned)
             {
@@ -154,7 +156,9 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void takeDamageCallback(){
         StartCoroutine(changeColorBack());
         if (health <= 0){
-            Instantiate(soulDrop, this.transform.position, this.transform.rotation);
+            if (this.tag != "Allies"){
+                Instantiate(soulDrop, this.transform.position, this.transform.rotation);
+            }
             Destroy(this.gameObject);
         }
     }
