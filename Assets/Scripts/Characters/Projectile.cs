@@ -54,7 +54,7 @@ public class Projectile : MonoBehaviour
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
         string tag = other.gameObject.tag;
-        if (tag != "Platform" && other.tag != this.tag)
+        if (tag != "Platform" && other.tag != this.tag && other.gameObject.layer != 2)
         {
             Damageable target = other.GetComponent<Damageable>();
             if (target != null)
@@ -73,8 +73,8 @@ public class Projectile : MonoBehaviour
     {
         if (spawnOnDestroy)
         {
-            GameObject obj = GameObject.Instantiate(spawnOnDestroy, this.transform.position, this.transform.rotation, this.transform);
-            obj.GetComponent<Web>().init();
+            GameObject obj = GameObject.Instantiate(spawnOnDestroy, this.transform.position, this.transform.rotation);
+            obj.tag = this.tag;
         }
     }
 }

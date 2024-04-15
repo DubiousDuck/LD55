@@ -46,7 +46,7 @@ public class DwarfAI : EnemyAI
             popped = true;
             this.sr.enabled = true;
             this.sr.sortingOrder += 2;
-            this.prePop.enabled = false;
+            this.prePop.gameObject.SetActive(false);
 
             this.rb.gravityScale = 1;
             this.transform.position += Vector3.up * size.y * buryFraction;

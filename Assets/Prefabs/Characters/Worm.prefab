@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -169,10 +169,13 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 1
   attackPower: 1
-  stunDuration: 1
   soulDrop: {fileID: 2648366281015474338, guid: 791599b11519f406d982e8cadd84075d, type: 3}
+  allyFollowRange: 2
   target: {fileID: 0}
   grounded: 0
+  sprites:
+  - {fileID: 21300000, guid: 3d34952291d47d149a82dfda51a01e93, type: 3}
+  - {fileID: 21300000, guid: b0a364093e2b47449bcec03e676985d4, type: 3}
   popRange: 0.5
   popPower: 5
   afterPop: {fileID: 7482667652216324306, guid: a159af488731e7747a555c5f7b4a5f74, type: 3}
