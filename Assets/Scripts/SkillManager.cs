@@ -22,28 +22,28 @@ public class SkillManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)){
             if(Input.GetKey(KeyCode.LeftShift)){
-                set_box_state(0, "special");
-            }else set_box_state(0);
+                set_box_state(0);
+            }else set_box_state(0, "special");
         }
         if (Input.GetKeyDown(KeyCode.Alpha2)){
             if(Input.GetKey(KeyCode.LeftShift)){
-                set_box_state(1, "special");
-            }else set_box_state(1);
+                set_box_state(1);
+            }else set_box_state(1, "special");
         }
         if (Input.GetKeyDown(KeyCode.Alpha3)){
             if(Input.GetKey(KeyCode.LeftShift)){
-                set_box_state(2, "special");
-            }else set_box_state(2);
+                set_box_state(2);
+            }else set_box_state(2, "special");
         }
         if (Input.GetKeyDown(KeyCode.Alpha4)){
             if(Input.GetKey(KeyCode.LeftShift)){
-                set_box_state(3, "special");
-            }else set_box_state(3);
+                set_box_state(3);
+            }else set_box_state(3, "special");
         }
         if (Input.GetKeyDown(KeyCode.Alpha5)){
            if(Input.GetKey(KeyCode.LeftShift)){
-                set_box_state(4, "special");
-            }else set_box_state(4);
+                set_box_state(4);
+            }else set_box_state(4, "special");
         }
     }
 
