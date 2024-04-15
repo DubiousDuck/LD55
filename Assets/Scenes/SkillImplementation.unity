@@ -330,6 +330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vulture
       objectReference: {fileID: 0}
+    - target: {fileID: 6701836726523644631, guid: 1aa9be6eba0b3834096c68453a906950, type: 3}
+      propertyPath: bones
+      value: 
+      objectReference: {fileID: 6199717183525263702, guid: 70708d7dc97f0a6468ce8972b2edd9fa, type: 3}
     - target: {fileID: 8119347680006303927, guid: 1aa9be6eba0b3834096c68453a906950, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.54

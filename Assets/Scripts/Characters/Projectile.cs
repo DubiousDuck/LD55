@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     public int numTimes = 1;
     public float timeBetween = 1;
     public float stunTime = 0;
+    public float stunChance = 0;
     private bool readyToDestroy = true;
     private Quaternion direction;
     private WaitForSeconds wait;
@@ -39,7 +40,9 @@ public class Projectile : MonoBehaviour
     {
         readyToDestroy = false;
         this.GetComponent<SpriteRenderer>().enabled = false;
-        for (int i = 1; i < numTimes; i++)
+        if (Random.Range(0.0f, 1.0f) > stunChance)
+            stunTime = 0;
+        for (int i = 0; i < numTimes; i++)
         {
             target.takeDamage(damage, stunTime, numTimes == 0 ? shooter : null);
             yield return wait;
