@@ -32,6 +32,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected LayerMask wallMask;
     protected bool grounded = false;
     protected GameObject spawner;
+    protected WaitForSeconds attackWait;
 
     public virtual void Start()
     {
@@ -43,6 +44,7 @@ public class EnemyAI : MonoBehaviour, Damageable
         detectionRange += size.x / 2;
         visionLayerMask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag) | 1<< 2);
         wallMask = 1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer("Terrain");
+        attackWait = new WaitForSeconds(attackTime);
         updateTarget(GameObject.Find("Player"));
     }
 
@@ -73,6 +75,8 @@ public class EnemyAI : MonoBehaviour, Damageable
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
             if ((this.targetPos - this.transform.position).magnitude < attackRange)
                 moveToTarget(false);
+            else
+                moveToTarget(true);
         }
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
@@ -154,7 +158,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     {
         attacking = true;
         this.attackTarget();
-        yield return new WaitForSeconds(attackTime);
+        yield return attackWait;
         attacking = false;
     }
 

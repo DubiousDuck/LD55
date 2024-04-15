@@ -5,6 +5,8 @@ using UnityEngine;
 public class DwarfAI : EnemyAI
 {
     private bool popped = false;
+    public bool pickReady = true;
+    public PickAxe pick;
     private float origDetRange;
     public SpriteRenderer prePop;
     public float buryFraction = 0.95f;
@@ -57,8 +59,19 @@ public class DwarfAI : EnemyAI
         this.walkToTarget(towards);
     }
 
+    public override IEnumerator attackEnumerator()
+    {
+        attacking = true;
+        pickReady = false;
+        this.attackTarget();
+        while (!pickReady)
+            yield return null;
+        yield return attackWait;
+        attacking = false;
+    }
+
     public override void attackTarget()
     {
-
+        throwProj(pick);
     }
 }

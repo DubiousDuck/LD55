@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour
     private WaitForSeconds wait;
     protected GameObject shooter;
     public GameObject spawnOnDestroy;
+    protected Rigidbody2D rb;
+    protected Vector3 initVel;
 
     public void init()
     {
@@ -25,10 +27,12 @@ public class Projectile : MonoBehaviour
         this.tag = shooter.tag;
         this.gameObject.layer = shooter.gameObject.layer;
         wait = new WaitForSeconds(timeBetween);
-        this.GetComponent<Rigidbody2D>().velocity = this.transform.rotation * Vector2.up * speed;
+        rb = this.GetComponent<Rigidbody2D>();
+        rb.velocity = this.transform.rotation * Vector2.up * speed;
+        initVel = rb.velocity;
     }
 
-    public void Update()
+    public virtual void FixedUpdate()
     {
         this.transform.Rotate(new Vector3(0, 0, rotateSpeed));
         lifetime -= Time.deltaTime;
@@ -51,7 +55,7 @@ public class Projectile : MonoBehaviour
         lifetime = 0;
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
+    public virtual void OnTriggerEnter2D(Collider2D other)
     {
         int layer = other.gameObject.layer;
         if (layer != 2 && layer != LayerMask.NameToLayer("Platform") && layer != this.gameObject.layer)
@@ -63,7 +67,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void collisionLogic(Collider2D collider)
+    public virtual void collisionLogic(Collider2D collider)
     {
         this.GetComponent<Collider2D>().enabled = false;
     }
