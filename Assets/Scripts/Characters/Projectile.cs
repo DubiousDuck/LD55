@@ -19,12 +19,13 @@ public class Projectile : MonoBehaviour
     private void Start()
     {
         shooter = this.transform.parent.gameObject;
+        this.transform.parent = null;
         wait = new WaitForSeconds(timeBetween);
+        this.GetComponent<Rigidbody2D>().velocity = this.transform.rotation * Vector2.up * speed;
     }
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
         lifetime -= Time.deltaTime;
         if (lifetime <= 0 && readyToDestroy)
             Destroy(this.gameObject);
