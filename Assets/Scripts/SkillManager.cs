@@ -22,34 +22,29 @@ public class SkillManager : MonoBehaviour
         totalManaCost = updateManaCost();
 
         if (Input.GetKeyDown(KeyCode.Alpha1)){
-            set_box_state(0);
-        }
-        if (Input.GetKeyDown(KeyCode.Q)){
-            set_box_state(0, "special");
+            if(Input.GetKey(KeyCode.LeftShift)){
+                set_box_state(0, "special");
+            }else set_box_state(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2)){
-            set_box_state(1);
-        }
-        if (Input.GetKeyDown(KeyCode.W)){
-            set_box_state(1, "special");
+            if(Input.GetKey(KeyCode.LeftShift)){
+                set_box_state(1, "special");
+            }else set_box_state(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3)){
-            set_box_state(2);
-        }
-        if (Input.GetKeyDown(KeyCode.E)){
-            set_box_state(2, "special");
+            if(Input.GetKey(KeyCode.LeftShift)){
+                set_box_state(2, "special");
+            }else set_box_state(2);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4)){
-            set_box_state(3);
-        }
-        if (Input.GetKeyDown(KeyCode.R)){
-            set_box_state(3, "special");
+            if(Input.GetKey(KeyCode.LeftShift)){
+                set_box_state(3, "special");
+            }else set_box_state(3);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5)){
-            set_box_state(4);
-        }
-        if (Input.GetKeyDown(KeyCode.T)){
-            set_box_state(4, "special");
+           if(Input.GetKey(KeyCode.LeftShift)){
+                set_box_state(4, "special");
+            }else set_box_state(4);
         }
     }
 

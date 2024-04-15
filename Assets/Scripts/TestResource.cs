@@ -7,7 +7,6 @@ public class TestResource : MonoBehaviour
     [SerializeField] ManaBar manaBar;
     [SerializeField] HealthBar healthBar;
     [SerializeField] SkillManager skillManager;
-    [SerializeField] SkillBarManager skillBarManager;
     [SerializeField] PlayerDamageable playerDamageable;
     public float currentHealth = 0, maxHealth = 100;
     public float currentMana = 0, maxMana = 100;
