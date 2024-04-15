@@ -102,7 +102,8 @@ public class SkillManager : MonoBehaviour
 
     public void updateSlots(){
         for(int i = 0; i< slots.Length; i++){
-            if (isFull[i]){
+            SkillBox box = slots[i].GetComponent<SkillBox>();
+            if (isFull[i] && box.currState == SkillBox.State.Empty){
                 slots[i].GetComponent<SkillBox>().deactivate();
             }
         }
