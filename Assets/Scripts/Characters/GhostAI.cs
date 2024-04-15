@@ -16,7 +16,7 @@ public class GhostAI : EnemyAI
         base.FixedUpdate();
         Color col = this.sr.color;
         float alpha = col.a + fadeSpeed * (this.attacking || this.rb.velocity.magnitude > 0 ? 1 : -1);
-        col.a = Mathf.Min(1, Mathf.Max(0, alpha));
+        col.a = Mathf.Min(1, Mathf.Max(this.tag == "Allies" ? 0.5f : 0, alpha));
         this.sr.color = col;
     }
 
@@ -33,15 +33,20 @@ public class GhostAI : EnemyAI
         this.moveToTarget();
     }
 
+    public override void updateTarget(GameObject target)
+    {
+        this.target = this.player;
+    }
+
     public override void moveToTarget(bool towards = true, bool flying = true)
     {
         if(towards)
-            base.moveToTarget(true, false);
+            base.moveToTarget(true, true);
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (System.Array.IndexOf(new string[] { "Platform", "Enemies", "Player", "Terrain" }, collision.collider.tag) !> -1)
-            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), collision.collider, ignore: true);
+        if (collision.tag != "Allies")
+            Physics2D.IgnoreCollision(collision, this.GetComponent<Collider2D>());
     }
 }

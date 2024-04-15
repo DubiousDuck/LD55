@@ -11,22 +11,27 @@ public class SpiderAI : EnemyAI
     public Projectile poison;
     public float poisonFrac = 0.85f;
 
-    private bool initialized = false;
     private float lockCoord;
     private Vector3 lastPos;
     public override void Start()
     {
+        base.Start();
+        if (this.tag == "Allies")
+        {
+            stickDir = StickDir.DOWN;
+            rb.gravityScale = 1;
+        }
         this.transform.Rotate(new Vector3(0, 0, (float)this.stickDir));
         lastPos = this.transform.position;
-        base.Start();
+        if (this.tag != "Allies")
+            this.initStick();
     }
 
     public override void FixedUpdate()
     {
-        if (initialized)
+        base.FixedUpdate();
+        if (this.tag != "Allies")
         {
-            base.FixedUpdate();
-
             Vector2 newPos = (Vector2)this.transform.position + rb.velocity * Time.deltaTime;
             if (!Physics2D.Raycast(newPos, -transform.up, this.size.y / 2, this.wallMask))
             {
@@ -39,38 +44,45 @@ public class SpiderAI : EnemyAI
                 lastPos = this.transform.position;
             }
         }
-        else if (!Physics2D.Raycast(this.transform.position, -this.transform.up, this.size.y / 2, this.wallMask))
-            rb.velocity = -this.transform.up * moveSpeed;
-        else
-        {
-            if (stickDir == StickDir.LEFT || stickDir == StickDir.RIGHT)
-                lockCoord = this.transform.position.x;
-            else
-                lockCoord = this.transform.position.y;
-            initialized = true;
-        }
     }
 
-    public override void moveToTarget(bool towards = true, bool flying = true)
+    private void initStick()
     {
-        Vector2 currPos = this.transform.position;
+        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, -this.transform.up, 10, this.wallMask);
+        if (!hitData)
+            return;
+        this.transform.position = hitData.point + (Vector2)this.transform.up * this.size.y / 2;
         if (stickDir == StickDir.LEFT || stickDir == StickDir.RIGHT)
-        {
-            this.transform.position = new Vector2(lockCoord, currPos.y);
-            if (currPos.y < this.targetPos.y)
-                rb.velocity = Vector2.up;
-            else if (currPos.y > this.targetPos.y)
-                rb.velocity = Vector2.down;
-        }
+            lockCoord = this.transform.position.x;
+        else
+            lockCoord = this.transform.position.y;
+    }
+
+    public override void moveToTarget(bool towards = true, bool flying = false)
+    {
+        if (this.tag == "Allies")
+            base.moveToTarget(towards, false);
         else
         {
-            this.transform.position = new Vector2(currPos.x, lockCoord);
-            if (currPos.x < this.targetPos.x)
-                rb.velocity = Vector2.right;
-            else if (currPos.x > this.targetPos.x)
-                rb.velocity = Vector2.left;
+            Vector2 currPos = this.transform.position;
+            if (stickDir == StickDir.LEFT || stickDir == StickDir.RIGHT)
+            {
+                this.transform.position = new Vector2(lockCoord, currPos.y);
+                if (currPos.y < this.targetPos.y)
+                    rb.velocity = Vector2.up;
+                else if (currPos.y > this.targetPos.y)
+                    rb.velocity = Vector2.down;
+            }
+            else
+            {
+                this.transform.position = new Vector2(currPos.x, lockCoord);
+                if (currPos.x < this.targetPos.x)
+                    rb.velocity = Vector2.right;
+                else if (currPos.x > this.targetPos.x)
+                    rb.velocity = Vector2.left;
+            }
+            rb.velocity *= towards ? moveSpeed : -runSpeed;
         }
-        rb.velocity *= towards ? moveSpeed : -runSpeed;
     }
 
     public override void attackTarget()

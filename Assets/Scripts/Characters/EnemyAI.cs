@@ -20,7 +20,8 @@ public class EnemyAI : MonoBehaviour, Damageable
     public float  attackPower = 5f;
     public Pickup soulDrop;
 
-    private GameObject player;
+    protected GameObject player;
+    public float allyFollowRange = 2f;
     public GameObject target;
     protected Vector3 targetPos;
     protected Rigidbody2D rb;
@@ -32,6 +33,9 @@ public class EnemyAI : MonoBehaviour, Damageable
     public bool grounded = false;
     protected GameObject spawner;
     protected WaitForSeconds attackWait;
+
+    public Sprite[] sprites = { null, null };
+    private WaitForSeconds spriteWait;
 
     public virtual void Start()
     {
@@ -48,10 +52,23 @@ public class EnemyAI : MonoBehaviour, Damageable
         updateTarget(player);
         if (this.tag == "Allies")
         {
-            this.GetComponent<Collider2D>().isTrigger = true;
+            //this.GetComponent<Collider2D>().isTrigger = true;
             detectionRange = Mathf.Infinity;
             visionLayerMask = 1 << LayerMask.NameToLayer("Enemies");
         }
+        this.spriteWait = new WaitForSeconds(Random.Range(0.5f, 1f));
+        StartCoroutine(spriteChanger());
+    }
+
+    private IEnumerator spriteChanger()
+    {
+        sr.color = Color.white;
+        while (true)
+            foreach (Sprite sprite in sprites)
+            {
+                this.sr.sprite = sprite;
+                yield return spriteWait;
+            }
     }
 
     public virtual void FixedUpdate()
@@ -62,17 +79,19 @@ public class EnemyAI : MonoBehaviour, Damageable
         DrawDebugLines();
         lookForTarget();
 
-        this.GetComponent<Collider2D>().isTrigger = false;
         if (this.tag == "Allies")
         {
             Vector3 playerPos = player.transform.position;
             if (!inRange(playerPos, player.GetComponent<PlayerDamageable>().maxFollowRange))
             {
-                updateTarget(player);
-                this.transform.position = player.transform.position;
-                this.rb.velocity = Vector2.zero;
+                if (player.GetComponent<PlayerController>().grounded)
+                {
+                    updateTarget(player);
+                    this.transform.position = player.transform.position;
+                    this.rb.velocity = Vector2.zero;
+                }
             }
-            else if (!inRange(playerPos, player.GetComponent<PlayerDamageable>().prefFollowRange))
+            else if (!inRange(playerPos, allyFollowRange))
             {
                 if (target == player || !inRange(playerPos, player.GetComponent<PlayerDamageable>().detectionRange))
                 {
@@ -80,8 +99,11 @@ public class EnemyAI : MonoBehaviour, Damageable
                     targetPos = player.transform.position;
                 }
             }
-            else if(target == player)
-                rb.velocity = new Vector2(0, rb.velocity.y);
+            else if (target == player)
+            {
+                //rb.velocity = new Vector2(rb.velocity.x * 0.2f, rb.gravityScale == 0 ? rb.velocity.y * 0.05f : rb.velocity.y);
+                targetPos = this.transform.position;
+            }
         }
         if (targetPos != this.transform.position && !stunned)
         {
@@ -119,7 +141,7 @@ public class EnemyAI : MonoBehaviour, Damageable
         {
             if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
             {
-                this.target = hitData.collider.gameObject;
+                updateTarget(hitData.collider.gameObject);
                 targetPos = target.transform.position;
             }
             else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
@@ -133,7 +155,7 @@ public class EnemyAI : MonoBehaviour, Damageable
         return Vector2.Distance(this.transform.position, position) < range;
     }
 
-    public void updateTarget(GameObject target)
+    public virtual void updateTarget(GameObject target)
     {
         this.target = target;
         //Debug.Log("my target is: " + target.name);
@@ -152,7 +174,8 @@ public class EnemyAI : MonoBehaviour, Damageable
                 rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? -runSpeed : 0, rb.velocity.y, 0);
 
             grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, wallMask);
-            if (grounded && Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask))
+            RaycastHit2D wallFront = Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask);
+            if (grounded && wallFront)
             {
                 rb.velocity += Vector2.up * jumpForce;
                 grounded = false;

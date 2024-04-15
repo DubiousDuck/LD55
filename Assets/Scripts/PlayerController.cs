@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
 
     public bool walking = false;
-    private bool grounded = false;
+    public bool grounded = false;
     public int jumpNum = 0;
     public int maxJumps = 2;
     private bool facingRight = true;
