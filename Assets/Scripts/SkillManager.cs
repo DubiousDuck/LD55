@@ -7,8 +7,6 @@ public class SkillManager : MonoBehaviour
     public static int SKILL_COUNT = 5;
     public bool[] isFull;
     public GameObject[] slots;
-    [SerializeField] List<SkillInfo> skillsObtained;
-    bool[] activated = new bool[SKILL_COUNT];
     public float totalManaCost;
     // Start is called before the first frame update
     void Start()
@@ -73,15 +71,27 @@ public class SkillManager : MonoBehaviour
             box.emptyfy();
         }
     }
-    public void SetState(int index, bool state){
-        activated[index] = state;
+
+    public void deactivate_all(){
+        for (int i = 0; i < slots.Length; i++){
+            SkillBox box = slots[i].GetComponent<SkillBox>();
+            box.deactivate();
+        }
     }
 
     float updateManaCost(){
         float total = 0;
-        for(int i = 0; i < skillsObtained.Count; i++){
-            float boolToInt = activated[i]? 1:0;
-            total += skillsObtained[i].manaCost * boolToInt;
+        for (int i = 0; i < slots.Length; i++){
+            SkillBox box = slots[i].GetComponent<SkillBox>();
+            SkillBox.State state = box.currState;
+            float cost;
+            SkillInfo info = box.GetComponentInChildren<SkillInfo>();
+            if (state == SkillBox.State.NormalActivated){
+                cost = info.passiveManaCost;
+            }else if (state == SkillBox.State.SpecialActivated){
+                cost = info.summonManaCost;
+            }else cost = 0;
+            total += cost;
         }
         return total;
     }
