@@ -56,10 +56,13 @@ public class SkillBox : MonoBehaviour
     }
 
     public void dropSkill(){
+        Debug.Log("dropping skill");
         foreach (Transform child in transform){
             if(child.name != "text" && child.gameObject.name != "Button" && child.gameObject.name != "Image" && child.gameObject.name != "sprite"){
                 GameObject.Destroy(child.gameObject);
             }
+            Image sprite = transform.Find("sprite").GetComponent<Image>();
+            sprite.sprite = null;
         }
         emptyfy();
         skillManager.isFull[index] = false;
