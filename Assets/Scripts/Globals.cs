@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class Globals : MonoBehaviour
+public class Globals
 {
-    public static Vector3 pos(GameObject obj) //so i don't have to type this every time
-    {
-        return obj.transform.position;
-    }
 }

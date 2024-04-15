@@ -172,6 +172,8 @@ MonoBehaviour:
   attackPower: 5
   stunDuration: 1
   soulDrop: {fileID: 7107008670525528245, guid: 4a597d92a80d94a2aa2fe20310b364dd, type: 3}
+  target: {fileID: 0}
+  grounded: 0
   pickReady: 1
   pick: {fileID: 9214414111530726783, guid: f0d3093772d6cb64bb67cc582ddc29d7, type: 3}
   prePop: {fileID: 225786421357743994}

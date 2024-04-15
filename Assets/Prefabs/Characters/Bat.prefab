@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -161,13 +161,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56535003c6a4764ab77cb4fbf34c84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
-  moveSpeed: 5
-  runSpeed: 0
-  jumpForce: 5
+  health: 2
+  moveSpeed: 8
+  runSpeed: 0.5
+  jumpForce: 0
   attackTime: 1
-  detectionRange: 10
-  attackRange: 1.5
+  detectionRange: 5
+  attackRange: 1
   attackPower: 1
-  stunDuration: 1
   soulDrop: {fileID: 8963149856532372070, guid: 78671852b00724b2ca365b169fd2606f, type: 3}
+  target: {fileID: 0}
+  grounded: 0

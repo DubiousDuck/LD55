@@ -42,6 +42,7 @@ public class DwarfAI : EnemyAI
         base.lookForTarget();
         if(!popped && targetPos == target.transform.position)
         {
+            popped = true;
             this.sr.enabled = true;
             this.sr.sortingOrder += 2;
             this.prePop.enabled = false;
@@ -49,7 +50,6 @@ public class DwarfAI : EnemyAI
             this.rb.gravityScale = 1;
             this.transform.position += Vector3.up * size.y * buryFraction;
             this.GetComponent<Collider2D>().enabled = true;
-            popped = true;
             this.detectionRange = origDetRange;
         }
     }

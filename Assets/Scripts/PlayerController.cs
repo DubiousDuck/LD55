@@ -12,9 +12,10 @@ public class PlayerController : MonoBehaviour
 
     public bool walking = false;
     private bool grounded = false;
-    private int jumpNum = 0;
+    public int jumpNum = 0;
     public int maxJumps = 2;
     private bool facingRight = true;
+    public float detectionRange = 10f;
 
     protected Rigidbody2D rb;
     protected Vector3 size;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     protected SpriteRenderer sr;
     protected bool stunned = false;
     protected Web web = null;
+    protected int origLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
         size = this.GetComponent<Collider2D>().bounds.size * (1 + sizeBuffer * 2);
         rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
+        this.origLayer = this.gameObject.layer;
     }
 
     // Update is called once per frame
@@ -44,12 +47,15 @@ public class PlayerController : MonoBehaviour
             }
             walking = newVel.x != 0;
 
-            grounded = Physics2D.Raycast(transform.position + Vector3.down * size.y / 2, Vector2.down, sizeBuffer, ~(1 << 2));
+            this.gameObject.layer = 2;
+            grounded = Physics2D.Raycast(transform.position, Vector2.down, this.size.y/2, ~(1 << 2));
+            this.gameObject.layer = origLayer;
+
             if (grounded)
                 jumpNum = 0;
             else if (jumpNum == 0)
                 jumpNum = 1;
-            if ((grounded && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ||
+            if ((jumpNum == 0 && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ||
                 (jumpNum < maxJumps && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))))
             {
                 jumpNum += 1;

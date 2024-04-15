@@ -18,10 +18,9 @@ public class EnemyAI : MonoBehaviour, Damageable
     public float detectionRange = 10f;
     public float attackRange = 1f;
     public float  attackPower = 5f;
-    public float stunDuration = 1.0f;
     public Pickup soulDrop;
-   
 
+    private GameObject player;
     public GameObject target;
     protected Vector3 targetPos;
     protected Rigidbody2D rb;
@@ -30,7 +29,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected float sizeBuffer = 0.01f;
     protected LayerMask visionLayerMask;
     protected LayerMask wallMask;
-    protected bool grounded = false;
+    public bool grounded = false;
     protected GameObject spawner;
     protected WaitForSeconds attackWait;
 
@@ -45,7 +44,8 @@ public class EnemyAI : MonoBehaviour, Damageable
         visionLayerMask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag) | 1<< 2);
         wallMask = 1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer("Terrain");
         attackWait = new WaitForSeconds(attackTime);
-        updateTarget(GameObject.Find("Player"));
+        player = GameObject.Find("Player");
+        updateTarget(player);
     }
 
     public virtual void FixedUpdate()
@@ -81,7 +81,7 @@ public class EnemyAI : MonoBehaviour, Damageable
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
 
-        if (grounded && Physics2D.Raycast(this.transform.position, rb.velocity, this.size.x, wallMask))
+        if (grounded && Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask))
         {
             rb.velocity += Vector2.up * jumpForce;
             grounded = false;
@@ -93,7 +93,8 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void updateTargetFromPlayer(){
         GameObject target = GameObject.FindGameObjectWithTag("Player");
         if(target != null){
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(target.transform.position, 10, 1 << LayerMask.NameToLayer("Enemies"));
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(target.transform.position, target.GetComponent<PlayerController>().detectionRange,
+                1 << LayerMask.NameToLayer("Enemies"));
             foreach(Collider2D collider in colliders){
                 Debug.Log(collider.gameObject.name + "");
                 if(collider.CompareTag("Enemies")){

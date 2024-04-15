@@ -171,6 +171,8 @@ MonoBehaviour:
   attackPower: 1
   stunDuration: 1
   soulDrop: {fileID: 2648366281015474338, guid: 791599b11519f406d982e8cadd84075d, type: 3}
+  target: {fileID: 0}
+  grounded: 0
   popRange: 0.5
   popPower: 5
   afterPop: {fileID: 7482667652216324306, guid: a159af488731e7747a555c5f7b4a5f74, type: 3}

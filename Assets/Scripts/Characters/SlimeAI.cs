@@ -10,12 +10,11 @@ public class SlimeAI : EnemyAI
     public override void Start()
     {
         base.Start();
-        this.grounded = true;
     }
 
     public override void moveToTarget(bool towards = true)
     {
-        if (grounded)
+        if (!attacking)
         {
             float randForce = this.jumpForce * Random.Range(jumpModRange[0], jumpModRange[1]);
             Vector3 diff = this.targetPos - this.transform.position;
@@ -29,17 +28,18 @@ public class SlimeAI : EnemyAI
         this.attacking = true;
         this.grounded = false;
         rb.velocity = jumpVel;
-        while (Physics2D.Raycast(transform.position + Vector3.down * this.size.y / 2, Vector2.down, this.sizeBuffer, ~(1 << 2)))
+        while (Physics2D.Raycast(transform.position, Vector2.down, this.size.y/2, this.wallMask))
         {
             rb.velocity = jumpVel;
             yield return null;
         }
-        while (!Physics2D.Raycast(transform.position + Vector3.down * this.size.y / 2, Vector2.down, this.sizeBuffer, ~(1 << 2)))
+        while (!Physics2D.Raycast(transform.position, Vector2.down, this.size.y / 2, this.wallMask))
+        {
             yield return null;
-
-        this.attacking = false;
-        yield return new WaitForSeconds(this.attackTime);
+        }
         this.grounded = true;
+        yield return new WaitForSeconds(this.attackTime);
+        this.attacking = false;
     }
 
     public override void attackTarget()
@@ -51,7 +51,7 @@ public class SlimeAI : EnemyAI
     {
         if (this.tag == "Enemies")
         {
-            if (attacking && System.Array.IndexOf(new string[] { "Player, Allies " }, collision.collider.tag) > -1)
+            if (!grounded && System.Array.IndexOf(new string[] { "Player, Allies " }, collision.collider.tag) > -1)
             {
                 return;
                 //do damage
