@@ -8,7 +8,7 @@ public class PlayerSkills : MonoBehaviour
     public GameObject player;
     public SummonArray summonArray;
     void Start(){
-        player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     public void ActivateSkill(string skillName){
         switch(skillName){
@@ -24,34 +24,35 @@ public class PlayerSkills : MonoBehaviour
     public void ActivateSummon(string summonName){
         //instantiate each summons to an array
         GameObject toBeSummoned = null;
+        Debug.Log(player.transform.position);
         switch(summonName){
             case "Bat":
-                toBeSummoned = Instantiate(batPrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(batPrefab, player.transform.position, player.transform.rotation);
                 break;
             case "Spider":
-                toBeSummoned = Instantiate(spiderPrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(spiderPrefab, player.transform.position, player.transform.rotation);
                 break;
             case "Vulture":
-                toBeSummoned = Instantiate(vulturePrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(vulturePrefab, player.transform.position, player.transform.rotation);
                 break;
             case "Worm":
-                toBeSummoned = Instantiate(wormPrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(wormPrefab, player.transform.position, player.transform.rotation);
                 break;
             case "Dwarf":
-                toBeSummoned = Instantiate(dwarfPrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(dwarfPrefab, player.transform.position, player.transform.rotation);
                 break;
             case "Slime":
-                toBeSummoned = Instantiate(slimePrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(slimePrefab, player.transform.position, player.transform.rotation);
                 break;
             case "Ghost":
-                toBeSummoned = Instantiate(ghostPrefab, player.transform.position, player.transform.rotation, player.transform);
+                toBeSummoned = Instantiate(ghostPrefab, player.transform.position, player.transform.rotation);
                 break;
 
         }
-        toBeSummoned.transform.parent = null;
         toBeSummoned.tag = "Allies";
         toBeSummoned.gameObject.layer = LayerMask.NameToLayer("Allies");
         summonArray.AddSummon(toBeSummoned);
+        toBeSummoned.transform.position = player.transform.position;
     }
 
     public void DeactivateSkill(string skillName){
