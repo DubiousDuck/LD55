@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
 
     public bool walking = false;
-    private int groundVar = 0;
+    public int groundVar = 0;
     public int jumpVar = 1;
     private bool facingRight = true;
 

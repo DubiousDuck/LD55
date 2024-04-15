@@ -8,6 +8,7 @@ public class SkillManager : MonoBehaviour
     public bool[] isFull;
     public GameObject[] slots;
     public float totalManaCost;
+    public PlayerSkills playerSkills;
     // Start is called before the first frame update
     void Start()
     {
@@ -107,18 +108,31 @@ public class SkillManager : MonoBehaviour
     void set_box_state(int index, string ability_type = "normal"){
         SkillBox box = slots[index].GetComponent<SkillBox>();
         if(isFull[index]){
+            SkillInfo info = box.GetComponentInChildren<SkillInfo>();
             if (box.currState == SkillBox.State.NormalActivated){
                     if (ability_type == "normal"){
                         box.deactivate();
-                    }else box.activate_special();
+                    }else {
+                        box.activate_special();
+                        playerSkills.ActivateSummon(info.skillName + "");
+                    }
+                    playerSkills.DeactivateSkill(info.skillName + "");
                 }else if (box.currState == SkillBox.State.SpecialActivated){
                     if (ability_type == "special"){
                         box.deactivate();
-                    }else box.activate_normal();
+                    }else{
+                        box.activate_normal();
+                        playerSkills.ActivateSkill(info.skillName + "");
+                    }
+                    playerSkills.DeactivateSummon(info.skillName + "");
                 }else{
                     if (ability_type == "special"){
                         box.activate_special();
-                    }else box.activate_normal();
+                        playerSkills.ActivateSummon(info.skillName + "");
+                    }else{
+                        box.activate_normal();
+                        playerSkills.ActivateSkill(info.skillName + "");
+                    }
                 }
         }
     }

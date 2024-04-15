@@ -5,8 +5,7 @@ using UnityEngine;
 public class SkillInfo : MonoBehaviour
 {
     [SerializeField] public float passiveManaCost;
-    [SerializeField] public string passiveName;
     [SerializeField] public float summonManaCost;
-    [SerializeField] public string summonName;
+    [SerializeField] public string skillName;
     
 }
