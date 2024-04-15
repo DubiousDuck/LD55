@@ -14,7 +14,7 @@ public class Pickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider){
         Debug.Log("i got picked up");
-        if(collider.gameObject.tag == "Player"){
+        if(collider.gameObject.name == "Player"){
             
             for(int i = 0; i< skillManager.slots.Length; i++){
                 if(skillManager.isFull[i] == false){
