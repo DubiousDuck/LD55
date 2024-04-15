@@ -6,7 +6,7 @@ public class Book : MonoBehaviour
 {
     [SerializeField] float pageSpeed = 0.5f;
     [SerializeField] List<Transform> pages;
-    int index = 0;
+    int index = -1;
     bool rotate = false;
     public GameObject buttonRight;
     public GameObject buttonLeft;
@@ -38,6 +38,7 @@ public class Book : MonoBehaviour
         {
             index = 0; // Reset index when showing the book
             ForwardButtonActions(); // Update button visibility
+buttonLeft.SetActive(false);
         }
         else
         {
@@ -48,7 +49,7 @@ public class Book : MonoBehaviour
 
     public void RotateForward()
     {
-        if (rotate == true) { return; }
+        if (rotate == true || index >= pages.Count -1) { return; }
         index++;
         float angle = 180;
         ForwardButtonActions();
@@ -69,13 +70,17 @@ if (buttonLeft.activeInHierarchy == false)
         {
             buttonRight.SetActive(false); //if the page is last then we turn off the forward button
         }
+        else
+        {
+            buttonRight.SetActive(true);
+        }
 }
     
 
     public void RotateBack()
     {
-        if (rotate == true) { return; }
-        //index--;
+        if (rotate == true || index <= 0) { return; }
+        
         float angle = 0;
         
         pages[index].SetAsLastSibling();
@@ -87,7 +92,7 @@ if (buttonLeft.activeInHierarchy == false)
     {
     
 
-if (buttonRight.activeInHierarchy == false || index -1 == -1)
+if (buttonRight.activeInHierarchy == false)
         {
             buttonRight.SetActive(true); //every time we turn the page back, the forward button should be activated
         }
