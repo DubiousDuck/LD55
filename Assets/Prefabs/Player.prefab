@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3c92e18beb7a6418e87282a77f3677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testResource: {fileID: 0}
-  health: 0
+  testResource: {fileID: 1027330147884381681, guid: 6c922e9efde174d5a8969ede7350b66d, type: 3}
+  health: 100
   maxHealth: 100
 --- !u!114 &1810445607680069760
 MonoBehaviour:
@@ -244,6 +244,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44921bd326c084fde94e07ca0236e4ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batPrefab: {fileID: 3694837908797965714, guid: 83a661f1e55136a43ae3e234163e6b08, type: 3}
+  spiderPrefab: {fileID: 3694837908797965714, guid: c1bf7a0c413673946986cb27de59a986, type: 3}
+  vulturePrefab: {fileID: 283792867744937291, guid: 1aa9be6eba0b3834096c68453a906950, type: 3}
+  wormPrefab: {fileID: 4679015705440186203, guid: 65ec91a337a14ad4e8bbe0d02104ecc9, type: 3}
+  dwarfPrefab: {fileID: 1444667747314974861, guid: a0872cafaa5dfee4fb20862e89d038ec, type: 3}
+  slimePrefab: {fileID: 1365927967747462124, guid: 224af089ba38fdf4fa3ecc4df8b1d9fa, type: 3}
+  ghostPrefab: {fileID: 7390327947096489331, guid: 976c02f7973ac0948820e9d504aa23bd, type: 3}
+  player: {fileID: 7414698360340483755}
+  summonArray: {fileID: 2427519590414524744, guid: 566d95bb5008c496fb8eccc21f6eb731, type: 3}
 --- !u!1 &8828651046126027664
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,3 +420,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 7414698360340483755}
   weaponController: {fileID: 7819137977576407672}
+  projectile: {fileID: 0}
+  poisonActive: 0

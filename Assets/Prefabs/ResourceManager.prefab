@@ -44,11 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89efd5fc8f6402e45a573880470b78eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaBar: {fileID: 0}
-  healthBar: {fileID: 0}
-  skillManager: {fileID: 0}
-  skillBarManager: {fileID: 0}
-  playerDamageable: {fileID: 0}
+  manaBar: {fileID: 6463211112915101576, guid: 7bf54690e4d5d47298d06b1c8d7c2809, type: 3}
+  healthBar: {fileID: 1325202856214973770, guid: da7fdb1070078466286cf0cb11e1e28f, type: 3}
+  skillManager: {fileID: 998789698283513590, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
+  playerDamageable: {fileID: 7868343307998120431, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
   currentHealth: 0
   maxHealth: 100
   currentMana: 0
