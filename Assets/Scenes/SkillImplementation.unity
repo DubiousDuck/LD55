@@ -133,15 +133,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2968672023140161226, guid: c1bf7a0c413673946986cb27de59a986, type: 3}
       propertyPath: stickDir
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1421464934689881754, guid: c1bf7a0c413673946986cb27de59a986, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.55
+      value: -3.77
       objectReference: {fileID: 0}
     - target: {fileID: 1421464934689881754, guid: c1bf7a0c413673946986cb27de59a986, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.34
+      value: -2.85
       objectReference: {fileID: 0}
     - target: {fileID: 1421464934689881754, guid: c1bf7a0c413673946986cb27de59a986, type: 3}
       propertyPath: m_LocalPosition.z
@@ -334,6 +334,10 @@ PrefabInstance:
       propertyPath: bones
       value: 
       objectReference: {fileID: 6199717183525263702, guid: 70708d7dc97f0a6468ce8972b2edd9fa, type: 3}
+    - target: {fileID: 6701836726523644631, guid: 1aa9be6eba0b3834096c68453a906950, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8119347680006303927, guid: 1aa9be6eba0b3834096c68453a906950, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.54
