@@ -26,25 +26,25 @@ public class PlayerSkills : MonoBehaviour
         GameObject toBeSummoned = null;
         switch(summonName){
             case "Bat":
-                toBeSummoned = Instantiate(batPrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(batPrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
             case "Spider":
-                toBeSummoned = Instantiate(spiderPrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(spiderPrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
             case "Vulture":
-                toBeSummoned = Instantiate(vulturePrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(vulturePrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
             case "Worm":
-                toBeSummoned = Instantiate(wormPrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(wormPrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
             case "Dwarf":
-                toBeSummoned = Instantiate(dwarfPrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(dwarfPrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
             case "Slime":
-                toBeSummoned = Instantiate(slimePrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(slimePrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
             case "Ghost":
-                toBeSummoned = Instantiate(ghostPrefab, player.transform.position, player.transform.rotation);
+                toBeSummoned = Instantiate(ghostPrefab, player.transform.position, player.transform.rotation, player.transform);
                 break;
 
         }
