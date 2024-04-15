@@ -50,7 +50,7 @@ public class SlimeAI : EnemyAI
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (grounded) return;
-        if (this.tag == "Enemies" && System.Array.IndexOf(new string[] { "Player, Allies " }, collision.collider.tag) > -1 ||
+        if (this.tag == "Enemies" && collision.collider.tag == "Allies" ||
             collision.collider.tag == "Enemies" && this.tag == "Allies")
             collision.gameObject.GetComponent<Damageable>().takeDamage(this.attackPower, 0, this.gameObject);
     }

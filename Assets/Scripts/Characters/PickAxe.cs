@@ -39,12 +39,6 @@ public class PickAxe : Projectile
         yield return null;
     }
 
-    public override void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject != shooter)
-            base.OnTriggerEnter2D(other);
-    }
-
     public override void collisionLogic(Collider2D collider)
     {
         return;

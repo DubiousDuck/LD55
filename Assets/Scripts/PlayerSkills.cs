@@ -8,7 +8,7 @@ public class PlayerSkills : MonoBehaviour
     public GameObject player;
     public SummonArray summonArray;
     void Start(){
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.Find("Player");
     }
     public void ActivateSkill(string skillName){
         switch(skillName){

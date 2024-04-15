@@ -15,16 +15,13 @@ public class Projectile : MonoBehaviour
     private bool readyToDestroy = true;
     private Quaternion direction;
     private WaitForSeconds wait;
-    protected GameObject shooter;
+    public GameObject shooter;
     public GameObject spawnOnDestroy;
     protected Rigidbody2D rb;
     protected Vector3 initVel;
 
-    public void init()
+    public void Start()
     {
-        shooter = this.transform.parent.gameObject;
-        this.transform.parent = null;
-        this.tag = shooter.tag;
         this.gameObject.layer = 2;
         wait = new WaitForSeconds(timeBetween);
         rb = this.GetComponent<Rigidbody2D>();
@@ -43,7 +40,6 @@ public class Projectile : MonoBehaviour
     public virtual IEnumerator damageTarget(Damageable target)
     {
         readyToDestroy = false;
-        this.GetComponent<SpriteRenderer>().enabled = false;
         if (Random.Range(0.0f, 1.0f) > stunChance)
             stunTime = 0;
         for (int i = 0; i < numTimes; i++)
@@ -57,8 +53,8 @@ public class Projectile : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
-        int layer = other.gameObject.layer;
-        if (layer != 2 && layer != LayerMask.NameToLayer("Platform") && layer != this.gameObject.layer)
+        string tag = other.gameObject.tag;
+        if (tag != "Platform" && other.tag != this.tag)
         {
             Damageable target = other.GetComponent<Damageable>();
             if (target != null)
@@ -70,6 +66,7 @@ public class Projectile : MonoBehaviour
     public virtual void collisionLogic(Collider2D collider)
     {
         this.GetComponent<Collider2D>().enabled = false;
+        this.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public void OnDestroy()

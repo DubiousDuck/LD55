@@ -57,7 +57,7 @@ public class DwarfAI : EnemyAI
 
     public override void moveToTarget(bool towards = true, bool flying = true)
     {
-        this.moveToTarget(towards, false);
+        base.moveToTarget(towards, false);
     }
 
     public override IEnumerator attackEnumerator()

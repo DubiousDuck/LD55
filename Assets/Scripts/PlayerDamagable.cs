@@ -8,7 +8,8 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     [SerializeField] TestResource testResource;
     public GameObject agro;
     public float detectionRange = 5f;
-    public float allyFollowRange = 3f;
+    public float prefFollowRange = 1f;
+    public float maxFollowRange = 10f;
     public float health, maxHealth = 100;
     // Start is called before the first frame update
     public void Start()

@@ -46,22 +46,47 @@ public class EnemyAI : MonoBehaviour, Damageable
         attackWait = new WaitForSeconds(attackTime);
         player = GameObject.Find("Player");
         updateTarget(player);
+        if (this.tag == "Allies")
+        {
+            this.GetComponent<Collider2D>().isTrigger = true;
+            detectionRange = Mathf.Infinity;
+            visionLayerMask = 1 << LayerMask.NameToLayer("Enemies");
+        }
     }
 
     public virtual void FixedUpdate()
     {
-        if (this.tag == "Allies" && target == player || target == null)
+        if (this.tag == "Allies" && target == player || !target)
             updateTarget(player.GetComponent<PlayerDamageable>().getAgro());
         
         DrawDebugLines();
         lookForTarget();
 
-        if (this.tag == "Allies" && target == player)
-            moveToTarget();
-        else if (targetPos != this.transform.position && !stunned)
+        this.GetComponent<Collider2D>().isTrigger = false;
+        if (this.tag == "Allies")
         {
-            if (inRange(target.transform.position) && !attacking)
-                    StartCoroutine(attackEnumerator());
+            Vector3 playerPos = player.transform.position;
+            if (!inRange(playerPos, player.GetComponent<PlayerDamageable>().maxFollowRange))
+            {
+                updateTarget(player);
+                this.transform.position = player.transform.position;
+                this.rb.velocity = Vector2.zero;
+            }
+            else if (!inRange(playerPos, player.GetComponent<PlayerDamageable>().prefFollowRange))
+            {
+                if (target == player || !inRange(playerPos, player.GetComponent<PlayerDamageable>().detectionRange))
+                {
+                    updateTarget(player);
+                    targetPos = player.transform.position;
+                }
+            }
+            else if(target == player)
+                rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        if (targetPos != this.transform.position && !stunned)
+        {
+            if (inRange(target.transform.position) && !attacking && target.tag != this.tag)
+                StartCoroutine(attackEnumerator());
             else if (!attacking)
                 moveToTarget();
         }
@@ -88,26 +113,17 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void lookForTarget()
     {
-        if (this.tag == "Allies" && target == player)
+        Vector2 dir = (target.transform.position - this.transform.position).normalized;
+        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, visionLayerMask);
+        if (hitData)
         {
-            targetPos = player.transform.position;
-            if ((targetPos - this.transform.position).magnitude > player.GetComponent<PlayerDamageable>().detectionRange)
-                this.transform.position = targetPos;
-        }
-        else
-        {
-            Vector2 dir = (target.transform.position - this.transform.position).normalized;
-            RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, visionLayerMask);
-            if (hitData)
+            if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
             {
-                if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
-                {
-                    this.target = hitData.collider.gameObject;
-                    targetPos = target.transform.position;
-                }
-                else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
-                    targetPos = this.transform.position;
+                this.target = hitData.collider.gameObject;
+                targetPos = target.transform.position;
             }
+            else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
+                targetPos = this.transform.position;
         }
     }
 
@@ -211,7 +227,8 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void throwProj(Projectile proj)
     {
         Vector2 direction = targetPos - this.transform.position;
-        Projectile clone = Instantiate(proj, this.transform.position, Quaternion.FromToRotation(Vector3.up, direction), this.transform);
-        clone.init();
+        Projectile clone = Instantiate(proj, this.transform.position, Quaternion.FromToRotation(Vector3.up, direction));
+        clone.shooter = this.gameObject;
+        clone.tag = this.tag;
     }
 }
