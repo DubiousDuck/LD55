@@ -14,7 +14,7 @@ public class Endings : MonoBehaviour
 
     public void RestartButton()
     {
-        SceneManager.LoadScene("Main Game");
+        SceneManager.LoadScene("Level1");
     }
 
     public void MainMenuButton()
