@@ -41,6 +41,7 @@ public class Projectile : MonoBehaviour
             yield return wait;
         }
         readyToDestroy = true;
+        lifetime = 0;
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -49,8 +50,15 @@ public class Projectile : MonoBehaviour
         if (layer != LayerMask.NameToLayer("Platform") && layer != shooter.gameObject.layer)
         {
             Damageable target = other.GetComponent<Damageable>();
-            if (target != null) damageTarget(target);
+            if (target != null)
+                StartCoroutine(damageTarget(target));
+            collisionLogic(other);
         }
+    }
+
+    public void collisionLogic(Collider2D collider)
+    {
+        this.GetComponent<Collider2D>().enabled = false;
     }
 
     public void OnDestroy()
