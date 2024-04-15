@@ -170,6 +170,7 @@ MonoBehaviour:
   attackRange: 1
   attackPower: 5
   stunDuration: 1
+  soulDrop: {fileID: 3274940520146246264, guid: 62051348655e1459e9125efe89cb4802, type: 3}
   jumpModRange:
   - 0.5
   - 1.5

@@ -171,6 +171,7 @@ MonoBehaviour:
   attackRange: 5
   attackPower: 5
   stunDuration: 1
+  soulDrop: {fileID: 7107008670525528245, guid: 4a597d92a80d94a2aa2fe20310b364dd, type: 3}
   prePop: {fileID: 225786421357743994}
   buryFraction: 0.8
 --- !u!1 &3882672971579927416

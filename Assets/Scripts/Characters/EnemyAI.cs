@@ -18,6 +18,8 @@ public class EnemyAI : MonoBehaviour, Damageable
     public float detectionRange = 10f;
     public float attackRange = 1f;
     public float  attackPower = 5f;
+    public float stunDuration = 1.0f;
+    public Pickup soulDrop;
 
     protected GameObject target;
     protected Vector3 targetPos;
@@ -152,6 +154,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void takeDamageCallback(){
         StartCoroutine(changeColorBack());
         if (health <= 0){
+            Instantiate(soulDrop, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
         }
     }

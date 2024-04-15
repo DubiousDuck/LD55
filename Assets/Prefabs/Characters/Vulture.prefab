@@ -170,3 +170,5 @@ MonoBehaviour:
   attackRange: 5
   attackPower: 5
   bones: {fileID: 3228904568331892701, guid: 70708d7dc97f0a6468ce8972b2edd9fa, type: 3}
+  stunDuration: 1
+  soulDrop: {fileID: 1873281821681407463, guid: 2e3a528f9ed61490ea4b471bc71c5f16, type: 3}
