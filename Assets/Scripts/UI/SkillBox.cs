@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SkillBox : MonoBehaviour
 {
-    public enum State {Empty, Activated, Deactivated};
+    public enum State {Empty, NormalActivated, SpecialActivated, Deactivated};
     public State currState;
     // Start is called before the first frame update
     void Start()
@@ -13,19 +13,34 @@ public class SkillBox : MonoBehaviour
         currState = State.Empty;
     }
 
+    void Update(){
+        
+    }
+
+    public void emptyfy(){
+        currState = State.Empty;
+        UpdateVisual();
+    }
     public void deactivate(){
         currState = State.Deactivated;
         UpdateVisual();
     }
-    public void activate(){
-        currState = State.Activated;
+    public void activate_normal(){
+        currState = State.NormalActivated;
+        UpdateVisual();
+    }
+    public void activate_special(){
+        currState = State.SpecialActivated;
         UpdateVisual();
     }
     void UpdateVisual(){
-        if (currState == State.Activated){
+        if (currState == State.NormalActivated){
             this.GetComponent<Image>().color = Color.yellow;
-            Debug.Log(this.name + " is activated");
+            Debug.Log(this.name + " is normal activated");
 
+        }else if (currState == State.SpecialActivated){
+            this.GetComponent<Image>().color = Color.blue;
+            Debug.Log(this.name + " is special activated");
         }else if (currState == State.Deactivated){
             this.GetComponent<Image>().color = new Color32(70, 70, 70, 255);
             Debug.Log(this.name + " is deactivated");

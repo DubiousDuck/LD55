@@ -48,8 +48,7 @@ public class TestResource : MonoBehaviour
         currentMana = currentMana - amount;
         if (currentMana < 0){
             currentMana = 0;
-            skillManager.DeactivateAll();
-            skillBarManager.reset_box_state();
+            skillManager.reset_slot_states();
         }
     }
 
