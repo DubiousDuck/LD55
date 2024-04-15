@@ -10,8 +10,10 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
 
     public bool walking = false;
-    public int groundVar = 0;
-    public int jumpVar = 1;
+    private bool grounded = false;
+    private int groundVar = 0;
+    private bool jumpButtonDown = false;
+    public int jumpVar = 2;
     private bool facingRight = true;
 
     protected Rigidbody2D rb;
@@ -37,21 +39,22 @@ public class PlayerController : MonoBehaviour
         }
         walking = newVel.x != 0;
 
-        if (Physics2D.Raycast(transform.position + Vector3.down * size.y/2, Vector2.down, sizeBuffer, ~(1 << 2)))
+        grounded = Physics2D.Raycast(transform.position + Vector3.down * size.y / 2, Vector2.down, sizeBuffer, ~(1 << 2));
+        if (grounded)
             groundVar = 0;
         else if (groundVar == 0)
             groundVar = 1;
-
+            
         if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Jump") > 0) && groundVar < jumpVar)
         {
             groundVar += 1;
             newVel.y = jumpForce;
+            jumpButtonDown = true;
         }
         else
         {
             newVel.y = rb.velocity.y;
         }
-
         rb.velocity = newVel;
 
         if (transform.position.y < -10)

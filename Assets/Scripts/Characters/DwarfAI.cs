@@ -14,9 +14,7 @@ public class DwarfAI : EnemyAI
         base.Start();
         this.GetComponent<Collider2D>().enabled = false;
         this.rb.gravityScale = 0;
-        Color color = this.sr.color;
-        color.a = 0;
-        this.sr.color = color;
+        this.sr.enabled = false;
 
         RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, Vector2.down, 10, this.wallMask);
         this.transform.position = hitData.point + Vector2.up * this.size.y / 2;
@@ -42,9 +40,7 @@ public class DwarfAI : EnemyAI
         base.lookForTarget();
         if(!popped && targetPos == target.transform.position)
         {
-            Color color = this.sr.color;
-            color.a = 1;
-            this.sr.color = color;
+            this.sr.enabled = true;
             this.sr.sortingOrder += 2;
             this.prePop.enabled = false;
 
