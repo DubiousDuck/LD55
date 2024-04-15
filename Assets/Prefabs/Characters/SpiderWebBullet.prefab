@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4343366337777928111}
   - component: {fileID: 4795482725049695680}
   m_Layer: 0
-  m_Name: WebBullet
+  m_Name: SpiderWebBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
