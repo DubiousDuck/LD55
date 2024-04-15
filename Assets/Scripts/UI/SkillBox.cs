@@ -8,6 +8,7 @@ public class SkillBox : MonoBehaviour
     public enum State {Empty, NormalActivated, SpecialActivated, Deactivated};
     public State currState;
     private SkillManager skillManager;
+    public SkillInfo skillInfo;
     public int index;
     // Start is called before the first frame update
     void Start()

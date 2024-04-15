@@ -6,7 +6,7 @@ using UnityEngine;
 public class SlimeAI : EnemyAI
 {
     public float[] jumpModRange = new float[] { 0.5f, 1.5f };
-    public override void moveToTarget()
+    public override void moveToTarget(bool towards = true)
     {
         if (grounded)
         {

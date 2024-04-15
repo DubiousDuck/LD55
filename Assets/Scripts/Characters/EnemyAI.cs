@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
+using static SpiderAI;
 
 public class EnemyAI : MonoBehaviour, Damageable
 {
@@ -10,6 +11,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected bool stunned = false;
     protected bool attacking = false;
     public float moveSpeed = 5f;
+    public float runSpeed = 0f;
     public float jumpForce = 5f;
     public float attackTime = 1f;
     public float detectionRange = 10f;
@@ -24,7 +26,8 @@ public class EnemyAI : MonoBehaviour, Damageable
     protected Vector2 size;
     protected float sizeBuffer = 0.01f;
     protected LayerMask visionLayerMask;
-    protected bool grounded = true;
+    protected LayerMask wallMask;
+    protected bool grounded = false;
 
     public virtual void Start()
     {
@@ -35,6 +38,7 @@ public class EnemyAI : MonoBehaviour, Damageable
         attackRange += size.x / 2;
         detectionRange += size.x / 2;
         visionLayerMask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag) | 1<< 2);
+        wallMask = 1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer("Terrain");
         updateTarget(GameObject.Find("Player"));
     }
 
@@ -45,18 +49,30 @@ public class EnemyAI : MonoBehaviour, Damageable
         {
             lookForTarget();
             if (targetPos != this.transform.position && !stunned)
+            {
                 if (inRange(target.transform.position) && !attacking)
                     StartCoroutine(attackEnumerator());
                 else if (!attacking)
                     moveToTarget();
+            }
         }
         if (attacking)
         {
             Vector2 diff = targetPos - this.transform.position;
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
+            if ((this.targetPos - this.transform.position).magnitude < attackRange)
+            {
+                moveToTarget(false);
+            }
         }
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
+
+        if (grounded && Physics2D.Raycast(this.transform.position, rb.velocity, this.size.x, wallMask))
+        {
+            rb.velocity += Vector2.up * jumpForce;
+            grounded = false;
+        }
     }
 
     public void DrawDebugLines()
@@ -93,29 +109,19 @@ public class EnemyAI : MonoBehaviour, Damageable
         this.target = target;
     }
 
-    public virtual void moveToTarget()
+    public virtual void moveToTarget(bool towards = true)
     {
         Vector2 diff = targetPos - this.transform.position;
-        rb.velocity = diff.normalized * moveSpeed;
+        rb.velocity = diff.normalized * (towards ? moveSpeed : -runSpeed);
     }
-    public virtual void walkToTarget(bool jumpEnabled = true)
+    public virtual void walkToTarget(bool towards = true)
     {
-        if (grounded)
-        {
-            Vector2 diff = targetPos - this.transform.position;
+        Vector2 diff = targetPos - this.transform.position;
+        if(towards)
             rb.velocity = new Vector3(diff.x < 0 ? -moveSpeed : diff.x > 0 ? moveSpeed : 0, rb.velocity.y, 0);
-
-            if (jumpEnabled && !Physics2D.Raycast(this.transform.position, rb.velocity, this.size.x / 2, 1 << LayerMask.NameToLayer("Terrain")))
-            {
-                rb.velocity += Vector2.up * jumpForce;
-                grounded = false;
-            }
-        }
         else
-        {
-            Debug.DrawRay(this.transform.position, Vector2.down * this.size.y / 2, grounded ? Color.green : Color.red);
-            grounded = !Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, ~(1 << this.gameObject.layer));
-        }
+            rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? - runSpeed : 0, rb.velocity.y, 0);
+        grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, wallMask);
     }
 
     public virtual IEnumerator attackEnumerator()
