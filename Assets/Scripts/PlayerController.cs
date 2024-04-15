@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     public bool walking = false;
     private int groundVar = 0;
-    private int jumpVar = 1;
+    public int jumpVar = 1;
     private bool facingRight = true;
 
     protected Rigidbody2D rb;
