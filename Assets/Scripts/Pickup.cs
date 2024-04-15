@@ -22,6 +22,7 @@ public class Pickup : MonoBehaviour
                     Instantiate(skillIcon, skillManager.slots[i].transform, false);
                     Destroy(this.gameObject);
                     skillManager.isFull[i] = true;
+                    skillManager.updateSlots();
                     break;
                 }
             }

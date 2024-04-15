@@ -133,4 +133,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c581f3a570f94272959d056df7b4576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillIcon: {fileID: 0}
+  skillIcon: {fileID: 2108188468061707519}
+  skillInfo: {fileID: 6566762872079274817, guid: 2ba390291dade484a98fb24b7f0e546b, type: 3}
