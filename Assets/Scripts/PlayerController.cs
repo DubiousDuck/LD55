@@ -47,7 +47,8 @@ public class PlayerController : MonoBehaviour
             walking = newVel.x != 0;
 
             this.gameObject.layer = 2;
-            grounded = Physics2D.Raycast(transform.position, Vector2.down, this.size.y/2, ~(1 << 2));
+            grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y/2, ~(1 << 2));
+            Debug.DrawRay(this.transform.position, Vector2.down * this.size.y / 2);
             this.gameObject.layer = origLayer;
 
             if (grounded)

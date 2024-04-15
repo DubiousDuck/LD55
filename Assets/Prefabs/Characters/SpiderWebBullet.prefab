@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.91, y: 0.83, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -155,6 +155,8 @@ MonoBehaviour:
   numTimes: 0
   timeBetween: 0
   stunTime: 0
+  stunChance: 0
+  shooter: {fileID: 0}
   spawnOnDestroy: {fileID: 1924620068253385439, guid: 9a8bf5d7ea1aedd4fa04440af662c889, type: 3}
 --- !u!50 &4795482725049695680
 Rigidbody2D:

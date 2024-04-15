@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6952451827989996588}
   - component: {fileID: 3175694947066749396}
   - component: {fileID: 1298898515249230265}
-  - component: {fileID: 7401455500389562771}
+  - component: {fileID: 2182056459717114310}
   - component: {fileID: 566966355246372382}
   m_Layer: 6
   m_Name: Worm
@@ -114,8 +114,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &7401455500389562771
-CircleCollider2D:
+--- !u!70 &2182056459717114310
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,9 +146,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Offset: {x: 0.20138347, y: -0.1869979}
+  m_Size: {x: 1.1071718, y: 0.5389865}
+  m_Direction: 1
 --- !u!114 &566966355246372382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,8 +174,8 @@ MonoBehaviour:
   target: {fileID: 0}
   grounded: 0
   sprites:
-  - {fileID: 21300000, guid: 3d34952291d47d149a82dfda51a01e93, type: 3}
-  - {fileID: 21300000, guid: b0a364093e2b47449bcec03e676985d4, type: 3}
+  - {fileID: 21300000, guid: 87bb127f439f45b4ab73594b025520f2, type: 3}
+  - {fileID: 21300000, guid: 61d11e742a8e1db4997b6580dddb9dba, type: 3}
   popRange: 0.5
   popPower: 5
   afterPop: {fileID: 7482667652216324306, guid: a159af488731e7747a555c5f7b4a5f74, type: 3}

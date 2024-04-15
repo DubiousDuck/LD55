@@ -48,7 +48,7 @@ public class SpiderAI : EnemyAI
 
     private void initStick()
     {
-        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, -this.transform.up, 10, this.wallMask);
+        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, -this.transform.up, Mathf.Infinity, this.wallMask);
         if (!hitData)
             return;
         this.transform.position = hitData.point + (Vector2)this.transform.up * this.size.y / 2;

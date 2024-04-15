@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8577902337803788518}
   - component: {fileID: 1809787322733328846}
   - component: {fileID: 1984069970690676775}
-  - component: {fileID: 2332810948493875966}
+  - component: {fileID: 2774863286151909063}
   - component: {fileID: 8422429666688802099}
   m_Layer: 6
   m_Name: Ghost
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: -1974566013
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d34952291d47d149a82dfda51a01e93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -114,8 +114,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &2332810948493875966
-CircleCollider2D:
+--- !u!60 &2774863286151909063
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -147,8 +147,27 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 2.56}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.26, y: 0.42}
+      - {x: -0.24, y: 0.42}
+      - {x: -0.26, y: 0.37}
+      - {x: -0.26, y: -0.39999998}
+      - {x: -0.24, y: -0.42}
+      - {x: 0.48999998, y: -0.42}
+      - {x: 0.5, y: -0.39999998}
+      - {x: 0.27529144, y: -0.100816004}
+      - {x: 0.26533997, y: 0.15990102}
+  m_UseDelaunayMesh: 0
 --- !u!114 &8422429666688802099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +193,6 @@ MonoBehaviour:
   target: {fileID: 0}
   grounded: 0
   sprites:
-  - {fileID: 21300000, guid: 6bce7ad1739eb504d996efea694b1c1f, type: 3}
-  - {fileID: 21300000, guid: a87c3223679b9674997fbd0ce832bead, type: 3}
+  - {fileID: 21300000, guid: 3d34952291d47d149a82dfda51a01e93, type: 3}
+  - {fileID: 21300000, guid: b0a364093e2b47449bcec03e676985d4, type: 3}
   fadeSpeed: 0.01

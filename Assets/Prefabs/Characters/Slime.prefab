@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9142939206882501810}
   - component: {fileID: 6447153636526557282}
   - component: {fileID: 212688469062526801}
-  - component: {fileID: 4038902026857306885}
+  - component: {fileID: 8240963052443737748}
   - component: {fileID: 1115368745556269799}
   m_Layer: 6
   m_Name: Slime
@@ -114,8 +114,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &4038902026857306885
-CircleCollider2D:
+--- !u!60 &8240963052443737748
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -147,8 +147,28 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.22999999, y: 0.17999999}
+      - {x: -0.099999994, y: 0.17999999}
+      - {x: -0.13, y: 0.17}
+      - {x: -0.34, y: -0.049999997}
+      - {x: -0.42, y: -0.14}
+      - {x: -0.42, y: -0.24}
+      - {x: -0.39999998, y: -0.26}
+      - {x: 0.48, y: -0.26}
+      - {x: 0.5, y: -0.25}
+      - {x: 0.5, y: -0.12}
+  m_UseDelaunayMesh: 0
 --- !u!114 &1115368745556269799
 MonoBehaviour:
   m_ObjectHideFlags: 0
