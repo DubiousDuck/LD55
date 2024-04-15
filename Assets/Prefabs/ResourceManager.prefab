@@ -48,7 +48,7 @@ MonoBehaviour:
   healthBar: {fileID: 1325202856214973770, guid: da7fdb1070078466286cf0cb11e1e28f, type: 3}
   skillManager: {fileID: 998789698283513590, guid: a2722d16aa2694b65a681b277b390e49, type: 3}
   playerDamageable: {fileID: 7868343307998120431, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
-  currentHealth: 0
+  currentHealth: 100
   maxHealth: 100
-  currentMana: 0
+  currentMana: 100
   maxMana: 100

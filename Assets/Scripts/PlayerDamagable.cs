@@ -22,6 +22,7 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     public void takeDamage(float amount, float stunTime, GameObject damager = null){
         health -= amount;
         this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        Debug.Log(this.gameObject.GetComponent<SpriteRenderer>().color + "");
         StartCoroutine(this.gameObject.GetComponent<PlayerController>().stun(stunTime));
         takeDamageCallBack(health);
     }
@@ -37,7 +38,7 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     }
 
     private IEnumerator changeColorBack(){
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(10f);
         this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

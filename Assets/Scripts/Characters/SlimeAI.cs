@@ -44,6 +44,7 @@ public class SlimeAI : EnemyAI
 
     public override void attackTarget()
     {
+        target.GetComponent<Damageable>().takeDamage(attackPower, 0, this.gameObject);
         moveToTarget();
     }
 

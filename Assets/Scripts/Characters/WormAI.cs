@@ -54,7 +54,7 @@ public class WormAI : EnemyAI
     public override void attackTarget()
     {
         if (popped)
-            return; //do melee damage
+            target.GetComponent<Damageable>().takeDamage(attackPower, 0, this.gameObject);
         else
         {
             popped = true;

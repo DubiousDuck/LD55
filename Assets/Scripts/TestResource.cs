@@ -18,14 +18,16 @@ public class TestResource : MonoBehaviour
     {
         maxHealth = playerDamageable.maxHealth;
         InvokeRepeating("manaUpdateCaller", 2.0f, 1.0f);
+        ResetResource();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         manaCostPerSec = skillManager.totalManaCost;
-        manaBar.SetManaBar(currentMana);
         healthBar.SetHealthBar(currentHealth);
+        manaBar.SetManaBar(currentMana);
     }
 
     public void ResetResource(){
