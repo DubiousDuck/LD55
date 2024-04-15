@@ -50,61 +50,35 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void FixedUpdate()
     {
-        if(this.tag == "Allies"){
-            updateTargetFromPlayer();
-        }
-        if (target != null)
+        if (this.tag == "Allies" && target == player || target == null)
+            updateTarget(player.GetComponent<PlayerDamageable>().getAgro());
+        
+        DrawDebugLines();
+        lookForTarget();
+
+        if (this.tag == "Allies" && target == player)
+            moveToTarget();
+        else if (targetPos != this.transform.position && !stunned)
         {
-            DrawDebugLines();
-            lookForTarget();
-            if (targetPos != this.transform.position && !stunned)
-            {
-                if (inRange(target.transform.position) && !attacking){
-                    if(this.tag == "Allies" && target.tag == "Player"){
-                        moveToTarget();
-                    }else 
+            if (inRange(target.transform.position) && !attacking)
                     StartCoroutine(attackEnumerator());
-                }
-                else if (!attacking)
-                    moveToTarget();
-            }
+            else if (!attacking)
+                moveToTarget();
         }
+
         if (attacking)
         {
             Vector2 diff = targetPos - this.transform.position;
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
-            if ((this.targetPos - this.transform.position).magnitude < attackRange)
+            if (diff.magnitude < attackRange)
                 moveToTarget(false);
             else
                 moveToTarget(true);
         }
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
-
-        if (grounded && Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask))
-        {
-            rb.velocity += Vector2.up * jumpForce;
-            grounded = false;
-        }
-        if (this.web != null)
-            rb.velocity *= web.slowModifier;
     }
 
-    public void updateTargetFromPlayer(){
-        GameObject target = GameObject.FindGameObjectWithTag("Player");
-        if(target != null){
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(target.transform.position, target.GetComponent<PlayerController>().detectionRange,
-                1 << LayerMask.NameToLayer("Enemies"));
-            foreach(Collider2D collider in colliders){
-                Debug.Log(collider.gameObject.name + "");
-                if(collider.CompareTag("Enemies")){
-                    target = collider.gameObject;
-                    break;
-                }
-            }
-            updateTarget(target);
-        }
-    }
     public void DrawDebugLines()
     {
         Vector2 dir = (target.transform.position - this.transform.position).normalized;
@@ -114,17 +88,26 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void lookForTarget()
     {
-        Vector2 dir = (target.transform.position - this.transform.position).normalized;
-        RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, visionLayerMask);
-        if(hitData)
+        if (this.tag == "Allies" && target == player)
         {
-            if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
+            targetPos = player.transform.position;
+            if ((targetPos - this.transform.position).magnitude > player.GetComponent<PlayerDamageable>().detectionRange)
+                this.transform.position = targetPos;
+        }
+        else
+        {
+            Vector2 dir = (target.transform.position - this.transform.position).normalized;
+            RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, visionLayerMask);
+            if (hitData)
             {
-                this.target = hitData.collider.gameObject;
-                targetPos = target.transform.position;
+                if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
+                {
+                    this.target = hitData.collider.gameObject;
+                    targetPos = target.transform.position;
+                }
+                else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
+                    targetPos = this.transform.position;
             }
-            else if (inRange(targetPos, 0.1f))      // if wall between and already at target, wait in place
-                targetPos = this.transform.position;
         }
     }
 
@@ -140,19 +123,27 @@ public class EnemyAI : MonoBehaviour, Damageable
         //Debug.Log("my target is: " + target.name);
     }
 
-    public virtual void moveToTarget(bool towards = true)
+    public virtual void moveToTarget(bool towards = true, bool flying = true)
     {
         Vector2 diff = targetPos - this.transform.position;
-        rb.velocity = diff.normalized * (towards ? moveSpeed : -runSpeed);
-    }
-    public virtual void walkToTarget(bool towards = true)
-    {
-        Vector2 diff = targetPos - this.transform.position;
-        if(towards)
-            rb.velocity = new Vector3(diff.x < 0 ? -moveSpeed : diff.x > 0 ? moveSpeed : 0, rb.velocity.y, 0);
+        if (flying)
+            rb.velocity = diff.normalized * (towards ? moveSpeed : -runSpeed);
         else
-            rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? - runSpeed : 0, rb.velocity.y, 0);
-        grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, wallMask);
+        {
+            if (towards)
+                rb.velocity = new Vector3(diff.x < 0 ? -moveSpeed : diff.x > 0 ? moveSpeed : 0, rb.velocity.y, 0);
+            else
+                rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? -runSpeed : 0, rb.velocity.y, 0);
+
+            grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, wallMask);
+            if (grounded && Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask))
+            {
+                rb.velocity += Vector2.up * jumpForce;
+                grounded = false;
+            }
+            if (this.web != null)
+                rb.velocity *= web.slowModifier;
+        }
     }
 
     public virtual IEnumerator attackEnumerator()
@@ -181,9 +172,12 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void takeDamageCallback(){
         StartCoroutine(changeColorBack());
         if (health <= 0){
-            if (this.tag != "Allies"){
+            if (this.tag != "Allies")
+            {
                 Instantiate(soulDrop, this.transform.position, this.transform.rotation);
             }
+            else if (target)
+                target.GetComponent<EnemyAI>().updateTarget(player);
             Destroy(this.gameObject);
         }
     }

@@ -46,9 +46,9 @@ public class WormAI : EnemyAI
         }
     }
 
-    public override void moveToTarget(bool towards = true)
+    public override void moveToTarget(bool towards = true, bool flying = true)
     {
-        this.walkToTarget(towards);
+        this.moveToTarget(towards, false);
     }
 
     public override void attackTarget()

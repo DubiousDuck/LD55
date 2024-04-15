@@ -51,7 +51,7 @@ public class SpiderAI : EnemyAI
         }
     }
 
-    public override void moveToTarget(bool towards = true)
+    public override void moveToTarget(bool towards = true, bool flying = true)
     {
         Vector2 currPos = this.transform.position;
         if (stickDir == StickDir.LEFT || stickDir == StickDir.RIGHT)

@@ -33,10 +33,10 @@ public class GhostAI : EnemyAI
         this.moveToTarget();
     }
 
-    public override void moveToTarget(bool towards = true)
+    public override void moveToTarget(bool towards = true, bool flying = true)
     {
         if(towards)
-            base.moveToTarget(true);
+            base.moveToTarget(true, false);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

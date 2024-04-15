@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     public int jumpNum = 0;
     public int maxJumps = 2;
     private bool facingRight = true;
-    public float detectionRange = 10f;
 
     protected Rigidbody2D rb;
     protected Vector3 size;

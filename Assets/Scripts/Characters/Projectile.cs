@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
         shooter = this.transform.parent.gameObject;
         this.transform.parent = null;
         this.tag = shooter.tag;
-        this.gameObject.layer = shooter.gameObject.layer;
+        this.gameObject.layer = 2;
         wait = new WaitForSeconds(timeBetween);
         rb = this.GetComponent<Rigidbody2D>();
         rb.velocity = this.transform.rotation * Vector2.up * speed;

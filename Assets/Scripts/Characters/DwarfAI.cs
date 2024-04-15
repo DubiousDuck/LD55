@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DwarfAI : EnemyAI
 {
-    private bool popped = false;
+    public bool popped = false;
     public bool pickReady = true;
     public PickAxe pick;
     private float origDetRange;
@@ -27,6 +27,7 @@ public class DwarfAI : EnemyAI
 
         origDetRange = this.detectionRange;
         this.detectionRange = this.attackRange;
+        this.popped = false;
     }
 
     public override void FixedUpdate()
@@ -40,7 +41,7 @@ public class DwarfAI : EnemyAI
     public override void lookForTarget()
     {
         base.lookForTarget();
-        if(!popped && targetPos == target.transform.position)
+        if(!popped && (this.tag == "Allies" || targetPos == target.transform.position))
         {
             popped = true;
             this.sr.enabled = true;
@@ -54,9 +55,9 @@ public class DwarfAI : EnemyAI
         }
     }
 
-    public override void moveToTarget(bool towards = true)
+    public override void moveToTarget(bool towards = true, bool flying = true)
     {
-        this.walkToTarget(towards);
+        this.moveToTarget(towards, false);
     }
 
     public override IEnumerator attackEnumerator()

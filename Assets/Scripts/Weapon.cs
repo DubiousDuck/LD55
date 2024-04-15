@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider){
         if (collider.tag == "Enemies" && weaponController.isAttacking){
             collider.gameObject.GetComponent<Damageable>().takeDamage(weaponDamage, stunDuration, owner);
+            owner.GetComponent<PlayerDamageable>().agro = collider.gameObject;
             if(poisonActive){
                 Instantiate(projectile, collider.transform.position, this.transform.rotation);
             }

@@ -12,7 +12,7 @@ public class SlimeAI : EnemyAI
         base.Start();
     }
 
-    public override void moveToTarget(bool towards = true)
+    public override void moveToTarget(bool towards = true, bool flying = true)
     {
         if (!attacking)
         {
@@ -44,21 +44,14 @@ public class SlimeAI : EnemyAI
 
     public override void attackTarget()
     {
-        target.GetComponent<Damageable>().takeDamage(attackPower, 0, this.gameObject);
         moveToTarget();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (this.tag == "Enemies")
-        {
-            if (!grounded && System.Array.IndexOf(new string[] { "Player, Allies " }, collision.collider.tag) > -1)
-            {
-                return;
-                //do damage
-            }
-        }
-        else if (collision.collider.tag == " Enemies")
-            return;
+        if (grounded) return;
+        if (this.tag == "Enemies" && System.Array.IndexOf(new string[] { "Player, Allies " }, collision.collider.tag) > -1 ||
+            collision.collider.tag == "Enemies" && this.tag == "Allies")
+            collision.gameObject.GetComponent<Damageable>().takeDamage(this.attackPower, 0, this.gameObject);
     }
 }
