@@ -22,7 +22,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     public Pickup soulDrop;
    
 
-    protected GameObject target;
+    public GameObject target;
     protected Vector3 targetPos;
     protected Rigidbody2D rb;
     protected SpriteRenderer sr;
@@ -48,14 +48,21 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void FixedUpdate()
     {
+        if(this.tag == "Allies"){
+            updateTargetFromPlayer();
+        }
         if (target != null)
         {
             DrawDebugLines();
             lookForTarget();
             if (targetPos != this.transform.position && !stunned)
             {
-                if (inRange(target.transform.position) && !attacking)
+                if (inRange(target.transform.position) && !attacking){
+                    if(this.tag == "Allies" && target.tag == "Player"){
+                        moveToTarget();
+                    }else 
                     StartCoroutine(attackEnumerator());
+                }
                 else if (!attacking)
                     moveToTarget();
             }
@@ -79,6 +86,20 @@ public class EnemyAI : MonoBehaviour, Damageable
             rb.velocity *= web.slowModifier;
     }
 
+    public void updateTargetFromPlayer(){
+        GameObject target = GameObject.FindGameObjectWithTag("Player");
+        if(target != null){
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(target.transform.position, 10, 1 << LayerMask.NameToLayer("Enemies"));
+            foreach(Collider2D collider in colliders){
+                Debug.Log(collider.gameObject.name + "");
+                if(collider.CompareTag("Enemies")){
+                    target = collider.gameObject;
+                    break;
+                }
+            }
+            updateTarget(target);
+        }
+    }
     public void DrawDebugLines()
     {
         Vector2 dir = (target.transform.position - this.transform.position).normalized;
@@ -111,6 +132,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void updateTarget(GameObject target)
     {
         this.target = target;
+        //Debug.Log("my target is: " + target.name);
     }
 
     public virtual void moveToTarget(bool towards = true)

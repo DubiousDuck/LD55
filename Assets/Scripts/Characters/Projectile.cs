@@ -44,7 +44,7 @@ public class Projectile : MonoBehaviour
             stunTime = 0;
         for (int i = 0; i < numTimes; i++)
         {
-            target.takeDamage(damage, stunTime, numTimes == 0 ? shooter : null);
+            target.takeDamage(damage, stunTime, i == 0 ? shooter : null);
             yield return wait;
         }
         readyToDestroy = true;

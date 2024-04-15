@@ -50,7 +50,7 @@ public class PlayerSkills : MonoBehaviour
         }
         toBeSummoned.transform.parent = null;
         toBeSummoned.tag = "Allies";
-        toBeSummoned.gameObject.layer = 7;
+        toBeSummoned.gameObject.layer = LayerMask.NameToLayer("Allies");
         summonArray.AddSummon(toBeSummoned);
     }
 
