@@ -13,7 +13,7 @@ public class PlayerSkills : MonoBehaviour
     public void ActivateSkill(string skillName){
         switch(skillName){
             case "Bat":
-                player.GetComponent<PlayerController>().jumpVar = 2;
+                player.GetComponent<PlayerController>().maxJumps = 2;
                 break;
             case "Spider":
                 player.GetComponentInChildren<Weapon>().poisonActive = true;
@@ -57,7 +57,7 @@ public class PlayerSkills : MonoBehaviour
     public void DeactivateSkill(string skillName){
         switch(skillName){
             case "Bat":
-                player.GetComponent<PlayerController>().jumpVar = 1;
+                player.GetComponent<PlayerController>().maxJumps = 1;
                 break;
             case "Spider":
                 player.GetComponentInChildren<Weapon>().poisonActive = false;

@@ -12,9 +12,8 @@ public class PlayerController : MonoBehaviour
 
     public bool walking = false;
     private bool grounded = false;
-    private int groundVar = 0;
-    private bool jumpButtonDown = false;
-    public int jumpVar = 2;
+    private int jumpNum = 0;
+    public int maxJumps = 2;
     private bool facingRight = true;
 
     protected Rigidbody2D rb;
@@ -33,7 +32,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    public void Update()
     {
         if (!stunned)
         {
@@ -47,20 +46,17 @@ public class PlayerController : MonoBehaviour
 
             grounded = Physics2D.Raycast(transform.position + Vector3.down * size.y / 2, Vector2.down, sizeBuffer, ~(1 << 2));
             if (grounded)
-                groundVar = 0;
-            else if (groundVar == 0)
-                groundVar = 1;
-
-            if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Jump") > 0) && groundVar < jumpVar)
+                jumpNum = 0;
+            else if (jumpNum == 0)
+                jumpNum = 1;
+            if ((grounded && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ||
+                (jumpNum < maxJumps && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))))
             {
-                groundVar += 1;
+                jumpNum += 1;
                 newVel.y = jumpForce;
-                jumpButtonDown = true;
             }
             else
-            {
                 newVel.y = rb.velocity.y;
-            }
             rb.velocity = newVel;
             if (this.web)
                 rb.velocity *= web.slowModifier;
