@@ -139,7 +139,7 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public void takeDamage(float damage, float stunTime = 0, GameObject damager = null)
     {
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(200, 60, 60, 255);
         health -= damage;
         StartCoroutine(stun(stunTime));
         if (damager != null)
@@ -148,10 +148,14 @@ public class EnemyAI : MonoBehaviour, Damageable
     }
 
     public void takeDamageCallback(){
+        StartCoroutine(changeColorBack());
         if (health <= 0){
             Destroy(this.gameObject);
         }
-        this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(107, 107, 107, 255);
+    }
+    private IEnumerator changeColorBack(){
+        yield return new WaitForSeconds(0.5f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     public IEnumerator stun(float sec)
