@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour, Damageable
 {
     public float health = 1;
     protected bool stunned = false;
+    protected Web web = null;
     protected bool attacking = false;
     public float moveSpeed = 5f;
     public float runSpeed = 0f;
@@ -17,7 +18,6 @@ public class EnemyAI : MonoBehaviour, Damageable
     public float detectionRange = 10f;
     public float attackRange = 1f;
     public float  attackPower = 5f;
-    public float stunDuration = 1.0f;
 
     protected GameObject target;
     protected Vector3 targetPos;
@@ -61,9 +61,9 @@ public class EnemyAI : MonoBehaviour, Damageable
             Vector2 diff = targetPos - this.transform.position;
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
             if ((this.targetPos - this.transform.position).magnitude < attackRange)
-            {
                 moveToTarget(false);
-            }
+            else
+                moveToTarget(true);
         }
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
@@ -73,6 +73,8 @@ public class EnemyAI : MonoBehaviour, Damageable
             rb.velocity += Vector2.up * jumpForce;
             grounded = false;
         }
+        if (this.web != null)
+            rb.velocity *= web.slowModifier;
     }
 
     public void DrawDebugLines()
@@ -163,5 +165,23 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void regenHealth(float healthRegained){
         //maybe we won't need this
+    }
+
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<Web>() && other.gameObject.tag != this.gameObject.tag)
+            this.web = other.GetComponent<Web>();
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        this.web = null;
+    }
+
+    public void throwProj(Projectile proj)
+    {
+        Vector2 direction = targetPos - this.transform.position;
+        Projectile clone = Instantiate(proj, this.transform.position, Quaternion.FromToRotation(Vector3.up, direction), this.transform);
+        clone.init();
     }
 }

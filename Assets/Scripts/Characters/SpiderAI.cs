@@ -7,6 +7,10 @@ public class SpiderAI : EnemyAI
     public enum StickDir { LEFT = 270, RIGHT = 90, UP = 180, DOWN = 0 };
     public StickDir stickDir = StickDir.DOWN;
 
+    public Projectile webBullet;
+    public Projectile poison;
+    public float poisonFrac = 0.85f;
+
     private bool initialized = false;
     private float lockCoord;
     private Vector3 lastPos;
@@ -71,11 +75,9 @@ public class SpiderAI : EnemyAI
 
     public override void attackTarget()
     {
-        if (Random.Range(0, 1) < 0.75f)
-            ;
-            //shoot poison
+        if (Random.Range(0.0f, 1.0f) < poisonFrac)
+            throwProj(poison);
         else
-            ;
-            //shoot web
+            throwProj(webBullet);
     }
 }

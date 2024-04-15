@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     protected Vector3 size;
     protected float sizeBuffer = 0.01f;
     protected SpriteRenderer sr;
+    protected Web web = null;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour
             newVel.y = rb.velocity.y;
         }
         rb.velocity = newVel;
+        if (this.web)
+            rb.velocity *= web.slowModifier;
 
         if (transform.position.y < -10)
             Respawn();
@@ -64,5 +67,16 @@ public class PlayerController : MonoBehaviour
     private void Respawn()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<Web>() && other.gameObject.tag != this.gameObject.tag)
+            this.web = other.GetComponent<Web>();
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        this.web = null;
     }
 }

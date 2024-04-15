@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   moveSpeed: 5
-  runSpeed: 0
+  runSpeed: 2
   jumpForce: 5
   attackTime: 1
   detectionRange: 10
@@ -171,3 +171,5 @@ MonoBehaviour:
   attackPower: 5
   stunDuration: 1
   stickDir: 0
+  webBullet: {fileID: 4343366337777928111, guid: 856f4b0e070830244928ff1ec7e3c45c, type: 3}
+  poison: {fileID: 694463596403015599, guid: 3bcb3b65b7317ff4d90135477e6142b2, type: 3}

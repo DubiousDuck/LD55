@@ -7,7 +7,7 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     [SerializeField] TestResource testResource;
     public float health, maxHealth = 100;
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         health = maxHealth;
         testResource.ResetResource();

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7819137977576407672}
   m_Layer: 2
   m_Name: WeaponController
-  m_TagString: Player
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 5032929789133071393}
   m_Layer: 2
   m_Name: Weapon
-  m_TagString: Player
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

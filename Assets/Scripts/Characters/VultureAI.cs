@@ -5,10 +5,10 @@ using static UnityEngine.GraphicsBuffer;
 
 public class VultureAI : EnemyAI
 {
+    public Projectile bones;
     public override void attackTarget()
     {
-        //target.GetComponent<Damageable>().takeDamage(attackPower, stunDuration, this.gameObject);
-        //throw projectiles
+        throwProj(bones);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
