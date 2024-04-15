@@ -6,8 +6,7 @@ public class BatAI : EnemyAI
 {
     public override void attackTarget()
     {
-         rb.velocity = Vector3.zero;
-         target.GetComponent<Damageable>().takeDamage(attackPower, stunDuration, this.gameObject);
+         target.GetComponent<Damageable>().takeDamage(attackPower, 0, this.gameObject);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

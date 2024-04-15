@@ -6,11 +6,9 @@ using UnityEngine.UI;
 public class ManaBar : MonoBehaviour
 {
     [SerializeField] TestResource myResource;
-    Slider mySlider;
     // Start is called before the first frame update
     void Start()
     {
-        mySlider = GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -20,6 +18,6 @@ public class ManaBar : MonoBehaviour
     }
 
     public void SetManaBar(float currentMana){
-        mySlider.value = currentMana;
+         this.GetComponent<Slider>().value = currentMana;
     }
 }

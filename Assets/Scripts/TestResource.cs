@@ -7,7 +7,6 @@ public class TestResource : MonoBehaviour
     [SerializeField] ManaBar manaBar;
     [SerializeField] HealthBar healthBar;
     [SerializeField] SkillManager skillManager;
-    [SerializeField] SkillBarManager skillBarManager;
     [SerializeField] PlayerDamageable playerDamageable;
     public float currentHealth = 0, maxHealth = 100;
     public float currentMana = 0, maxMana = 100;
@@ -19,14 +18,16 @@ public class TestResource : MonoBehaviour
     {
         maxHealth = playerDamageable.maxHealth;
         InvokeRepeating("manaUpdateCaller", 2.0f, 1.0f);
+        ResetResource();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         manaCostPerSec = skillManager.totalManaCost;
-        manaBar.SetManaBar(currentMana);
         healthBar.SetHealthBar(currentHealth);
+        manaBar.SetManaBar(currentMana);
     }
 
     public void ResetResource(){
@@ -48,7 +49,7 @@ public class TestResource : MonoBehaviour
         currentMana = currentMana - amount;
         if (currentMana < 0){
             currentMana = 0;
-            skillManager.reset_slot_states();
+            skillManager.deactivate_all();
         }
     }
 

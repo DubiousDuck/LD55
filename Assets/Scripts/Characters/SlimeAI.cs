@@ -6,9 +6,15 @@ using UnityEngine;
 public class SlimeAI : EnemyAI
 {
     public float[] jumpModRange = new float[] { 0.5f, 1.5f };
-    public override void moveToTarget()
+
+    public override void Start()
     {
-        if (grounded)
+        base.Start();
+    }
+
+    public override void moveToTarget(bool towards = true, bool flying = true)
+    {
+        if (!attacking)
         {
             float randForce = this.jumpForce * Random.Range(jumpModRange[0], jumpModRange[1]);
             Vector3 diff = this.targetPos - this.transform.position;
@@ -22,17 +28,18 @@ public class SlimeAI : EnemyAI
         this.attacking = true;
         this.grounded = false;
         rb.velocity = jumpVel;
-        while (Physics2D.Raycast(transform.position + Vector3.down * this.size.y / 2, Vector2.down, this.sizeBuffer, ~(1 << 2)))
+        while (Physics2D.Raycast(transform.position, Vector2.down, this.size.y/2, this.wallMask))
         {
             rb.velocity = jumpVel;
             yield return null;
         }
-        while (!Physics2D.Raycast(transform.position + Vector3.down * this.size.y / 2, Vector2.down, this.sizeBuffer, ~(1 << 2)))
+        while (!Physics2D.Raycast(transform.position, Vector2.down, this.size.y / 2, this.wallMask))
+        {
             yield return null;
-
-        this.attacking = false;
-        yield return new WaitForSeconds(this.attackTime);
+        }
         this.grounded = true;
+        yield return new WaitForSeconds(this.attackTime);
+        this.attacking = false;
     }
 
     public override void attackTarget()
@@ -42,15 +49,9 @@ public class SlimeAI : EnemyAI
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (this.tag == "Enemies")
-        {
-            if (attacking && System.Array.IndexOf(new string[] { "Player, Allies " }, collision.collider.tag) > -1)
-            {
-                return;
-                //do damage
-            }
-        }
-        else if (collision.collider.tag == " Enemies")
-            return;
+        if (grounded) return;
+        if (this.tag == "Enemies" && collision.collider.tag == "Allies" ||
+            collision.collider.tag == "Enemies" && this.tag == "Allies")
+            collision.gameObject.GetComponent<Damageable>().takeDamage(this.attackPower, 0, this.gameObject);
     }
 }

@@ -7,10 +7,14 @@ public class SkillBox : MonoBehaviour
 {
     public enum State {Empty, NormalActivated, SpecialActivated, Deactivated};
     public State currState;
+    private SkillManager skillManager;
+    public SkillInfo skillInfo;
+    public int index;
     // Start is called before the first frame update
     void Start()
     {
         currState = State.Empty;
+        skillManager = GameObject.FindObjectOfType<SkillManager>();
     }
 
     void Update(){
@@ -48,5 +52,15 @@ public class SkillBox : MonoBehaviour
             this.GetComponent<Image>().color = Color.white;
             Debug.Log(this.name + " is empty");
         }
+    }
+
+    public void dropSkill(){
+        foreach (Transform child in transform){
+            if(child.name != "text" && child.gameObject.name != "Button"){
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+        emptyfy();
+        skillManager.isFull[index] = false;
     }
 }

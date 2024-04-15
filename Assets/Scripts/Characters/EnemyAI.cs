@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
+using static SpiderAI;
 
 public class EnemyAI : MonoBehaviour, Damageable
 {
     public float health = 1;
     protected bool stunned = false;
+    protected Web web = null;
     protected bool attacking = false;
     public float moveSpeed = 5f;
+    public float runSpeed = 0f;
     public float jumpForce = 5f;
     public float attackTime = 1f;
     public float detectionRange = 10f;
     public float attackRange = 1f;
     public float  attackPower = 5f;
-    public float stunDuration = 1.0f;
+    public Pickup soulDrop;
 
-    protected GameObject target;
+    private GameObject player;
+    public GameObject target;
     protected Vector3 targetPos;
     protected Rigidbody2D rb;
     protected SpriteRenderer sr;
     protected Vector2 size;
     protected float sizeBuffer = 0.01f;
     protected LayerMask visionLayerMask;
-    protected bool grounded = true;
+    protected LayerMask wallMask;
+    public bool grounded = false;
+    protected GameObject spawner;
+    protected WaitForSeconds attackWait;
 
     public virtual void Start()
     {
@@ -35,25 +42,63 @@ public class EnemyAI : MonoBehaviour, Damageable
         attackRange += size.x / 2;
         detectionRange += size.x / 2;
         visionLayerMask = ~(1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer(this.tag) | 1<< 2);
-        updateTarget(GameObject.Find("Player"));
+        wallMask = 1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer("Terrain");
+        attackWait = new WaitForSeconds(attackTime);
+        player = GameObject.Find("Player");
+        updateTarget(player);
+        if (this.tag == "Allies")
+        {
+            this.GetComponent<Collider2D>().isTrigger = true;
+            detectionRange = Mathf.Infinity;
+            visionLayerMask = 1 << LayerMask.NameToLayer("Enemies");
+        }
     }
 
     public virtual void FixedUpdate()
     {
+        if (this.tag == "Allies" && target == player || !target)
+            updateTarget(player.GetComponent<PlayerDamageable>().getAgro());
+        
         DrawDebugLines();
-        if (target != null)
+        lookForTarget();
+
+        this.GetComponent<Collider2D>().isTrigger = false;
+        if (this.tag == "Allies")
         {
-            lookForTarget();
-            if (targetPos != this.transform.position && !stunned)
-                if (inRange(target.transform.position) && !attacking)
-                    StartCoroutine(attackEnumerator());
-                else if (!attacking)
-                    moveToTarget();
+            Vector3 playerPos = player.transform.position;
+            if (!inRange(playerPos, player.GetComponent<PlayerDamageable>().maxFollowRange))
+            {
+                updateTarget(player);
+                this.transform.position = player.transform.position;
+                this.rb.velocity = Vector2.zero;
+            }
+            else if (!inRange(playerPos, player.GetComponent<PlayerDamageable>().prefFollowRange))
+            {
+                if (target == player || !inRange(playerPos, player.GetComponent<PlayerDamageable>().detectionRange))
+                {
+                    updateTarget(player);
+                    targetPos = player.transform.position;
+                }
+            }
+            else if(target == player)
+                rb.velocity = new Vector2(0, rb.velocity.y);
         }
+        if (targetPos != this.transform.position && !stunned)
+        {
+            if (inRange(target.transform.position) && !attacking && target.tag != this.tag)
+                StartCoroutine(attackEnumerator());
+            else if (!attacking)
+                moveToTarget();
+        }
+
         if (attacking)
         {
             Vector2 diff = targetPos - this.transform.position;
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
+            if (diff.magnitude < attackRange)
+                moveToTarget(false);
+            else
+                moveToTarget(true);
         }
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;
@@ -70,7 +115,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     {
         Vector2 dir = (target.transform.position - this.transform.position).normalized;
         RaycastHit2D hitData = Physics2D.Raycast(this.transform.position, dir, detectionRange, visionLayerMask);
-        if(hitData)
+        if (hitData)
         {
             if (hitData.collider.gameObject.layer == this.target.layer)   //no wall between and same team = update target position
             {
@@ -91,30 +136,29 @@ public class EnemyAI : MonoBehaviour, Damageable
     public void updateTarget(GameObject target)
     {
         this.target = target;
+        //Debug.Log("my target is: " + target.name);
     }
 
-    public virtual void moveToTarget()
+    public virtual void moveToTarget(bool towards = true, bool flying = true)
     {
         Vector2 diff = targetPos - this.transform.position;
-        rb.velocity = diff.normalized * moveSpeed;
-    }
-    public virtual void walkToTarget(bool jumpEnabled = true)
-    {
-        if (grounded)
+        if (flying)
+            rb.velocity = diff.normalized * (towards ? moveSpeed : -runSpeed);
+        else
         {
-            Vector2 diff = targetPos - this.transform.position;
-            rb.velocity = new Vector3(diff.x < 0 ? -moveSpeed : diff.x > 0 ? moveSpeed : 0, rb.velocity.y, 0);
+            if (towards)
+                rb.velocity = new Vector3(diff.x < 0 ? -moveSpeed : diff.x > 0 ? moveSpeed : 0, rb.velocity.y, 0);
+            else
+                rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? -runSpeed : 0, rb.velocity.y, 0);
 
-            if (jumpEnabled && !Physics2D.Raycast(this.transform.position, rb.velocity, this.size.x / 2, 1 << LayerMask.NameToLayer("Terrain")))
+            grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, wallMask);
+            if (grounded && Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask))
             {
                 rb.velocity += Vector2.up * jumpForce;
                 grounded = false;
             }
-        }
-        else
-        {
-            Debug.DrawRay(this.transform.position, Vector2.down * this.size.y / 2, grounded ? Color.green : Color.red);
-            grounded = !Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, ~(1 << this.gameObject.layer));
+            if (this.web != null)
+                rb.velocity *= web.slowModifier;
         }
     }
 
@@ -122,7 +166,7 @@ public class EnemyAI : MonoBehaviour, Damageable
     {
         attacking = true;
         this.attackTarget();
-        yield return new WaitForSeconds(attackTime);
+        yield return attackWait;
         attacking = false;
     }
 
@@ -133,7 +177,7 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public void takeDamage(float damage, float stunTime = 0, GameObject damager = null)
     {
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(200, 60, 60, 255);
         health -= damage;
         StartCoroutine(stun(stunTime));
         if (damager != null)
@@ -142,10 +186,20 @@ public class EnemyAI : MonoBehaviour, Damageable
     }
 
     public void takeDamageCallback(){
+        StartCoroutine(changeColorBack());
         if (health <= 0){
+            if (this.tag != "Allies")
+            {
+                Instantiate(soulDrop, this.transform.position, this.transform.rotation);
+            }
+            else if (target)
+                target.GetComponent<EnemyAI>().updateTarget(player);
             Destroy(this.gameObject);
         }
-        this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(107, 107, 107, 255);
+    }
+    private IEnumerator changeColorBack(){
+        yield return new WaitForSeconds(0.5f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     public IEnumerator stun(float sec)
@@ -157,5 +211,24 @@ public class EnemyAI : MonoBehaviour, Damageable
 
     public virtual void regenHealth(float healthRegained){
         //maybe we won't need this
+    }
+
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.GetComponent<Web>() && other.gameObject.tag != this.gameObject.tag)
+            this.web = other.GetComponent<Web>();
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        this.web = null;
+    }
+
+    public void throwProj(Projectile proj)
+    {
+        Vector2 direction = targetPos - this.transform.position;
+        Projectile clone = Instantiate(proj, this.transform.position, Quaternion.FromToRotation(Vector3.up, direction));
+        clone.shooter = this.gameObject;
+        clone.tag = this.tag;
     }
 }

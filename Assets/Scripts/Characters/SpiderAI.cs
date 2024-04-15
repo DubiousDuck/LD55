@@ -6,16 +6,17 @@ public class SpiderAI : EnemyAI
 {
     public enum StickDir { LEFT = 270, RIGHT = 90, UP = 180, DOWN = 0 };
     public StickDir stickDir = StickDir.DOWN;
-    public float runSpeed = 2f;
+
+    public Projectile webBullet;
+    public Projectile poison;
+    public float poisonFrac = 0.85f;
 
     private bool initialized = false;
     private float lockCoord;
-    private LayerMask wallMask;
     private Vector3 lastPos;
     public override void Start()
     {
         this.transform.Rotate(new Vector3(0, 0, (float)this.stickDir));
-        wallMask = 1 << LayerMask.NameToLayer("Platform") | 1 << LayerMask.NameToLayer("Terrain");
         lastPos = this.transform.position;
         base.Start();
     }
@@ -25,11 +26,9 @@ public class SpiderAI : EnemyAI
         if (initialized)
         {
             base.FixedUpdate();
-            if (attacking && (this.targetPos - this.transform.position).magnitude < attackRange)
-                move(false);
 
             Vector2 newPos = (Vector2)this.transform.position + rb.velocity * Time.deltaTime;
-            if (!Physics2D.Raycast(newPos, -transform.up, this.size.y / 2, wallMask))
+            if (!Physics2D.Raycast(newPos, -transform.up, this.size.y / 2, this.wallMask))
             {
                 this.rb.velocity = Vector2.zero;
                 this.transform.position = lastPos;
@@ -40,7 +39,7 @@ public class SpiderAI : EnemyAI
                 lastPos = this.transform.position;
             }
         }
-        else if (!Physics2D.Raycast(this.transform.position, -this.transform.up, this.size.y / 2, wallMask))
+        else if (!Physics2D.Raycast(this.transform.position, -this.transform.up, this.size.y / 2, this.wallMask))
             rb.velocity = -this.transform.up * moveSpeed;
         else
         {
@@ -52,12 +51,7 @@ public class SpiderAI : EnemyAI
         }
     }
 
-    public override void moveToTarget()
-    {
-        this.move(true);
-    }
-
-    private void move(bool towards)
+    public override void moveToTarget(bool towards = true, bool flying = true)
     {
         Vector2 currPos = this.transform.position;
         if (stickDir == StickDir.LEFT || stickDir == StickDir.RIGHT)
@@ -81,11 +75,9 @@ public class SpiderAI : EnemyAI
 
     public override void attackTarget()
     {
-        if (Random.Range(0, 1) < 0.75f)
-            ;
-            //shoot poison
+        if (Random.Range(0.0f, 1.0f) < poisonFrac)
+            throwProj(poison);
         else
-            ;
-            //shoot web
+            throwProj(webBullet);
     }
 }

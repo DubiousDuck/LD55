@@ -163,10 +163,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   moveSpeed: 5
+  runSpeed: 0
   jumpForce: 0
   attackTime: 0.5
   detectionRange: 10
   attackRange: 1
   attackPower: 5
   stunDuration: 1
+  soulDrop: {fileID: 3166374054156906041, guid: a57b1c6a6d0394faca6538b396f0f00f, type: 3}
   fadeSpeed: 0.01

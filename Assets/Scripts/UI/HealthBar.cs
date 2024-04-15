@@ -6,11 +6,9 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] TestResource myResource;
-    Slider mySlider;
     // Start is called before the first frame update
     void Start()
     {
-        mySlider = GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -20,6 +18,6 @@ public class HealthBar : MonoBehaviour
     }
 
     public void SetHealthBar(float currentHealth){
-        mySlider.value = currentHealth;
+        this.GetComponent<Slider>().value = currentHealth;
     }
 }
