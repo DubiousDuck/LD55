@@ -48,6 +48,7 @@ MonoBehaviour:
   weapon: {fileID: 8828651046126027664}
   canAttack: 1
   attackCoolDown: 1
+  isAttacking: 0
 --- !u!1 &7414698360340483755
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,9 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3c92e18beb7a6418e87282a77f3677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testResource: {fileID: 0}
   health: 0
   maxHealth: 100
-  testResource: {fileID: 0}
 --- !u!1 &8828651046126027664
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,4 +395,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41de2d25c22954114828691a7f2acb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponController: {fileID: 0}
+  owner: {fileID: 7414698360340483755}
+  weaponController: {fileID: 7819137977576407672}
