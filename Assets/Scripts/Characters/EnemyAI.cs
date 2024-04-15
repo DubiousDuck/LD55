@@ -66,8 +66,6 @@ public class EnemyAI : MonoBehaviour, Damageable
             sr.flipX = diff.x < 0 ? true : diff.x > 0 ? false : sr.flipX;
             if ((this.targetPos - this.transform.position).magnitude < attackRange)
                 moveToTarget(false);
-            else
-                moveToTarget(true);
         }
         else
             sr.flipX = rb.velocity.x < 0 ? true : rb.velocity.x > 0 ? false : sr.flipX;

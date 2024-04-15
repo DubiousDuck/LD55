@@ -33,6 +33,12 @@ public class GhostAI : EnemyAI
         this.moveToTarget();
     }
 
+    public override void moveToTarget(bool towards = true)
+    {
+        if(towards)
+            base.moveToTarget(true);
+    }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (System.Array.IndexOf(new string[] { "Platform", "Enemies", "Player", "Terrain" }, collision.collider.tag) !> -1)

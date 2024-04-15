@@ -87,12 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         this.web = null;
     }
-
-    public void stun(float stunTime)
-    {
-        StartCoroutine(stunMe(stunTime));
-    }
-    private IEnumerator stunMe(float stunTime)
+    public IEnumerator stun(float stunTime)
     {
         stunned = true;
         sr.color = Color.yellow;
