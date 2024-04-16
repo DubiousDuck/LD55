@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitchLevel3 : MonoBehaviour
 {
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        SceneManager.LoadScene(5);
+        if(other.gameObject.name == "Player"){
+            SceneManager.LoadScene(5);
+        }
     }
 }
