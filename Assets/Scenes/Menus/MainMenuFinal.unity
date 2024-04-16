@@ -1301,8 +1301,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Defeat enemies using [SPACE]\n\nCarrying your mission onwards using: \nW
     -> Up\tA -> Left \tD -> Down \tS -> Down \n\nAccess your Encyclopedia and friends
-    (press 1, 2, 3, or 4 when full) \n\nKeep track of your health and mana bars or
-    dont we dont really care"
+    (press 1, 2, 3, 4, or 5 to summon) \n\nKeep track of your health and mana bars
+    as you stride forward "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
