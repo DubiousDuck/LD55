@@ -292,11 +292,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6287364635086644321, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 34.59
+      value: -6.77
       objectReference: {fileID: 0}
     - target: {fileID: 6287364635086644321, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 147.75
+      value: -3.08
       objectReference: {fileID: 0}
     - target: {fileID: 6287364635086644321, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -66315,17 +66315,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 13619246771904667, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f33791bae70a9fc4f9d0671f9caeba7f, type: 3}
+    - target: {fileID: 5039423405631284925, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5981066437791446465, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
     - target: {fileID: 6920824375051271424, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920824375051271424, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920824375051271424, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 31.8
+      value: 31.56
       objectReference: {fileID: 0}
     - target: {fileID: 6920824375051271424, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 151.3
+      value: 150.4
       objectReference: {fileID: 0}
     - target: {fileID: 6920824375051271424, guid: 0746da85d94364215b764e16632ca7b2, type: 3}
       propertyPath: m_LocalPosition.z
