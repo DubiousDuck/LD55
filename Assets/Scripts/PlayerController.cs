@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     protected Rigidbody2D rb;
     protected Vector3 size;
-    protected float sizeBuffer = 0.01f;
+    protected float sizeBuffer = 0.05f;
     protected SpriteRenderer sr;
     protected bool stunned = false;
     protected Web web = null;
@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour
             walking = newVel.x != 0;
 
             this.gameObject.layer = 2;
-            grounded = Physics2D.Raycast(this.transform.position + (Vector3.right * newVel.x).normalized * this.size.x/2, Vector2.down, this.size.y/2, ~(1 << 2));
-            Debug.DrawRay(this.transform.position, Vector2.down * this.size.y / 2);
+            grounded = Physics2D.Raycast(this.transform.position + Vector3.right * this.size.x / 2, Vector2.down, this.size.y / 2, ~(1 << 2));
+            grounded = grounded || Physics2D.Raycast(this.transform.position + Vector3.left * this.size.x / 2, Vector2.down, this.size.y / 2, ~(1 << 2));
             this.gameObject.layer = origLayer;
 
             if (grounded)
