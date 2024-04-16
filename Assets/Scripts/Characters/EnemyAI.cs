@@ -173,7 +173,7 @@ public class EnemyAI : MonoBehaviour, Damageable
             else
                 rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? -runSpeed : 0, rb.velocity.y, 0);
 
-            grounded = Physics2D.Raycast(this.transform.position, Vector2.down, this.size.y / 2, wallMask);
+            grounded = Physics2D.Raycast(this.transform.position + (Vector3.right * rb.velocity.x).normalized * this.size.x, Vector2.down, this.size.y / 2, wallMask);
             RaycastHit2D wallFront = Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask);
             if (grounded && wallFront)
             {
