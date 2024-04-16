@@ -54,12 +54,15 @@ public class Projectile : MonoBehaviour
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
         string tag = other.gameObject.tag;
-        if (tag != "Platform" && other.tag != this.tag && other.gameObject.layer != 2)
+        Debug.Log(tag);
+        if (tag != "Platform" && tag != "Terrain" && tag != "Untagged" && other.gameObject.layer != 2)
         {
-            Damageable target = other.GetComponent<Damageable>();
-            if (target != null)
+            if (this.tag == "Allies" && tag == "Enemies" || this.tag == "Enemies" && tag == "Allies")
+            {
+                Damageable target = other.GetComponent<Damageable>();
                 StartCoroutine(damageTarget(target));
-            collisionLogic(other);
+                collisionLogic(other);
+            }
         }
     }
 
