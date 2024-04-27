@@ -89,10 +89,12 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator stun(float stunTime)
     {
-        stunned = true;
-        sr.color = Color.yellow;
-        yield return new WaitForSeconds(stunTime);
-        stunned = false;
-        sr.color = Color.white;
+        if(stunTime > 0){
+            stunned = true;
+            sr.color = Color.yellow;
+            yield return new WaitForSeconds(stunTime);
+            stunned = false;
+            sr.color = Color.white;
+        }
     }
 }

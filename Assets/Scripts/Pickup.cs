@@ -15,15 +15,16 @@ public class Pickup : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider){
         Debug.Log("i got picked up");
         if(collider.gameObject.name == "Player"){
-            
-            for(int i = 0; i< skillManager.slots.Length; i++){
-                if(skillManager.isFull[i] == false){
-                    //add skill to the inventory
-                    Instantiate(skillIcon, skillManager.slots[i].transform, false);
-                    Destroy(this.gameObject);
-                    skillManager.isFull[i] = true;
-                    skillManager.updateSlots();
-                    break;
+            if (skillManager != null){
+                for(int i = 0; i< skillManager.slots.Length; i++){
+                    if(skillManager.isFull[i] == false){
+                        //add skill to the inventory
+                        Instantiate(skillIcon, skillManager.slots[i].transform, false);
+                        Destroy(this.gameObject);
+                        skillManager.isFull[i] = true;
+                        skillManager.updateSlots();
+                        break;
+                    }
                 }
             }
         }

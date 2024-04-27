@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerDamageable : MonoBehaviour, Damageable
 {
@@ -24,8 +25,8 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     }
     public void takeDamage(float amount, float stunTime, GameObject damager = null){
         health -= amount;
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        Debug.Log(this.gameObject.GetComponent<SpriteRenderer>().color + "");
+        this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+        Debug.Log(this.GetComponent<SpriteRenderer>().color + "");
         StartCoroutine(this.gameObject.GetComponent<PlayerController>().stun(stunTime));
         takeDamageCallBack(health);
         if(damager)
@@ -35,6 +36,9 @@ public class PlayerDamageable : MonoBehaviour, Damageable
         StartCoroutine(changeColorBack());
         testResource.updateHealth(newHealth);
         Debug.Log("i'm hurt");
+        if (newHealth <= 0){
+            SceneManager.LoadScene(4);
+        }
     }
 
     public void regenHealthCallBack(float newHealth){
@@ -43,7 +47,7 @@ public class PlayerDamageable : MonoBehaviour, Damageable
     }
 
     private IEnumerator changeColorBack(){
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(0.5f);
         this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 

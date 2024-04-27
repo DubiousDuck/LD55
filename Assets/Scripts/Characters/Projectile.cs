@@ -43,8 +43,12 @@ public class Projectile : MonoBehaviour
         if (Random.Range(0.0f, 1.0f) > stunChance)
             stunTime = 0;
         for (int i = 0; i < numTimes; i++)
-        {
-            target.takeDamage(damage, stunTime, i == 0 ? shooter : null);
+        {   
+            //Debug.Log(target + "");
+            if ((target+"") != "null"){
+                //Debug.Log("damaging target");
+                target.takeDamage(damage, stunTime, i == 0 ? shooter : null);
+            }
             yield return wait;
         }
         readyToDestroy = true;
@@ -54,7 +58,7 @@ public class Projectile : MonoBehaviour
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
         string tag = other.gameObject.tag;
-        Debug.Log(tag);
+        //Debug.Log(tag);
         if (tag != "Platform" && tag != "Terrain" && tag != "Untagged" && other.gameObject.layer != 2)
         {
             if (this.tag == "Allies" && tag == "Enemies" || this.tag == "Enemies" && tag == "Allies")

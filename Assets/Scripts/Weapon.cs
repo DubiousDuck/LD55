@@ -13,12 +13,11 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider){
         if (collider.tag == "Enemies" && weaponController.isAttacking){
-            collider.gameObject.GetComponent<Damageable>().takeDamage(weaponDamage, stunDuration, owner);
-            owner.GetComponent<PlayerDamageable>().agro = collider.gameObject;
-            if(poisonActive){
-                Instantiate(projectile, collider.transform.position, this.transform.rotation);
+            Damageable target = collider.gameObject.GetComponent<Damageable>();
+            if(target != null){
+                target.takeDamage(weaponDamage, stunDuration, owner);
+                owner.GetComponent<PlayerDamageable>().agro = collider.gameObject;
             }
-            Debug.Log("weapon hit enemy");
         }
     }
 }

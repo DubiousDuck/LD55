@@ -14560,6 +14560,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1627869709889435997, guid: c79e721e902ca477a8873953ec715406, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1627869709889435997, guid: c79e721e902ca477a8873953ec715406, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1627869709889435997, guid: c79e721e902ca477a8873953ec715406, type: 3}
       propertyPath: m_BackGroundColor.b
       value: 0.990566
       objectReference: {fileID: 0}
@@ -14696,6 +14704,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7868343307998120431, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
+      propertyPath: testResource
+      value: 
+      objectReference: {fileID: 363736288}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

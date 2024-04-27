@@ -213,8 +213,13 @@ public class EnemyAI : MonoBehaviour, Damageable
             {
                 Instantiate(soulDrop, this.transform.position, this.transform.rotation);
             }
-            else if (target)
-                target.GetComponent<EnemyAI>().updateTarget(player);
+            else if ((target+"") != "null"){
+                Debug.Log(target +"");
+                EnemyAI targetAI = target.GetComponent<EnemyAI>();
+                if (targetAI != null){
+                    target.GetComponent<EnemyAI>().updateTarget(player);
+                }
+            }
             Destroy(this.gameObject);
         }
     }
