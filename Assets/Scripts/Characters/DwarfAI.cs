@@ -13,7 +13,9 @@ public class DwarfAI : EnemyAI
 
     public override void Start()
     {
+        prePop.gameObject.SetActive(false);
         base.Start();
+        prePop.gameObject.SetActive(true);
         this.GetComponent<Collider2D>().enabled = false;
         this.rb.gravityScale = 0;
         this.sr.enabled = false;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 3f;
@@ -20,7 +21,6 @@ public class PlayerController : MonoBehaviour
     protected SpriteRenderer sr;
     protected bool stunned = false;
     protected Web web = null;
-    protected int origLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
         size = this.GetComponent<Collider2D>().bounds.size * (1 + sizeBuffer * 2);
         rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
-        this.origLayer = this.gameObject.layer;
     }
 
     // Update is called once per frame
@@ -44,15 +43,6 @@ public class PlayerController : MonoBehaviour
             }
             walking = newVel.x != 0;
 
-            this.gameObject.layer = 2;
-            grounded = Physics2D.Raycast(this.transform.position + Vector3.right * this.size.x / 2, Vector2.down, this.size.y / 2, ~(1 << 2));
-            grounded = grounded || Physics2D.Raycast(this.transform.position + Vector3.left * this.size.x / 2, Vector2.down, this.size.y / 2, ~(1 << 2));
-            this.gameObject.layer = origLayer;
-
-            if (grounded)
-                jumpNum = 0;
-            else if (jumpNum == 0)
-                jumpNum = 1;
             if ((jumpNum == 0 && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ||
                 (jumpNum < maxJumps && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))))
             {
@@ -70,6 +60,18 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y < -10)
             Respawn();
+    }
+
+    public void FixedUpdate()
+    {
+        Vector2 downLeft = (Vector2)this.transform.position + Vector2.left * (this.size.x / 2 - sizeBuffer) + Vector2.down * (this.size.y / 2 - sizeBuffer);
+        grounded = Physics2D.OverlapArea(downLeft, downLeft + Vector2.down * sizeBuffer + Vector2.right * (this.size.x - 2 * sizeBuffer), ~(1 << 2));
+        Debug.DrawLine(downLeft, downLeft + Vector2.right * (this.size.x - 2 * sizeBuffer), Color.white);
+
+        if (grounded)
+            jumpNum = 0;
+        else if (jumpNum == 0)
+            jumpNum = 1;
     }
 
     private void Respawn()

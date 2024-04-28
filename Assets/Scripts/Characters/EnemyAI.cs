@@ -171,8 +171,12 @@ public class EnemyAI : MonoBehaviour, Damageable
             else
                 rb.velocity = new Vector3(diff.x < 0 ? runSpeed : diff.x > 0 ? -runSpeed : 0, rb.velocity.y, 0);
 
-            grounded = Physics2D.Raycast(this.transform.position + (Vector3.right * rb.velocity.x).normalized * this.size.x, Vector2.down, this.size.y / 2, wallMask);
-            RaycastHit2D wallFront = Physics2D.Raycast(this.transform.position, Vector2.right * rb.velocity.x, this.size.x, wallMask);
+            Vector2 downLeft = (Vector2)this.transform.position + Vector2.left * (this.size.x / 2 - sizeBuffer) + Vector2.down * (this.size.y / 2 - sizeBuffer);
+            grounded = Physics2D.OverlapArea(downLeft, downLeft + Vector2.down * sizeBuffer + Vector2.right * (this.size.x - 2 * sizeBuffer), wallMask);
+            RaycastHit2D wallFront = Physics2D.Raycast((Vector2)this.transform.position + Vector2.down * (this.size.y/2 - 2 * sizeBuffer),
+                Vector2.right * rb.velocity.x, this.size.x, wallMask);
+
+                (Vector2.right * rb.velocity.x).normalized * this.size.x, wallFront ? Color.red : Color.white);
             if (grounded && wallFront)
             {
                 rb.velocity += Vector2.up * jumpForce;
