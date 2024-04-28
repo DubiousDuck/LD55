@@ -78,7 +78,7 @@ public class SkillManager : MonoBehaviour
             SkillBox box = slots[i].GetComponent<SkillBox>();
             SkillInfo info = box.GetComponentInChildren<SkillInfo>();
             box.deactivate();
-            playerSkills.DeactivateSkill(info.skillName + "");
+            //playerSkills.DeactivateSkill(info.skillName + "");
             playerSkills.DeactivateSummon(info.skillName + "");
         }
     }
