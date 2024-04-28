@@ -176,7 +176,6 @@ public class EnemyAI : MonoBehaviour, Damageable
             RaycastHit2D wallFront = Physics2D.Raycast((Vector2)this.transform.position + Vector2.down * (this.size.y/2 - 2 * sizeBuffer),
                 Vector2.right * rb.velocity.x, this.size.x, wallMask);
 
-                (Vector2.right * rb.velocity.x).normalized * this.size.x, wallFront ? Color.red : Color.white);
             if (grounded && wallFront)
             {
                 rb.velocity += Vector2.up * jumpForce;

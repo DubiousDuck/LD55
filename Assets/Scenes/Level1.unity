@@ -652,6 +652,10 @@ PrefabInstance:
       propertyPath: summonArray
       value: 
       objectReference: {fileID: 1273912571}
+    - target: {fileID: 4335868237051717773, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 73c52d2c63f46fe4ab68cd4ae75e5fe1, type: 2}
     - target: {fileID: 6287364635086644321, guid: fd75618c7704fdf45845f526b7de7de4, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
