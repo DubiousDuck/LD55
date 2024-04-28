@@ -4,52 +4,54 @@ using UnityEngine;
 
 public class SlimeAI : EnemyAI
 {
-    public float[] jumpModRange = new float[] { 0.5f, 1.5f };
+    public float[] jumpModRange = new float[] { 1f, 1.5f };
 
     public override void Start()
     {
         base.Start();
     }
 
-    public override void moveToTarget(bool towards = true, bool flying = true)
+    public override void moveToTarget(bool towards = true, bool flying = false)
     {
         if (!attacking)
-        {
-            float randForce = this.jumpForce * Random.Range(jumpModRange[0], jumpModRange[1]);
-            Vector3 diff = this.targetPos - this.transform.position;
-            Vector3 jumpVel = new Vector3(diff.x < 0 ? -1 : diff.x > 0 ? 1 : 0, Random.Range(0.5f, 2), 0);
-            StartCoroutine(jump(jumpVel.normalized * randForce));
-        }
+            StartCoroutine(attackEnumerator());
     }
 
-    private IEnumerator jump(Vector3 jumpVel)
+    public override IEnumerator attackEnumerator()
     {
         this.attacking = true;
-        this.grounded = false;
-        rb.velocity = jumpVel;
-        while (Physics2D.Raycast(transform.position, Vector2.down, this.size.y/2, this.wallMask))
+        
+        float randForce = this.jumpForce * Random.Range(jumpModRange[0], jumpModRange[1]);
+        Vector3 diff = this.targetPos - this.transform.position;
+        Vector3 jumpVel = new Vector3(diff.x < 0 ? -1 : diff.x > 0 ? 1 : 0, Random.Range(0.5f, 2), 0);
+        jumpVel = jumpVel.normalized * randForce;
+
+        this.GetComponent<Collider2D>().enabled = false;
+        while (grounded)
         {
             rb.velocity = jumpVel;
+            Vector2 downLeft = (Vector2)this.GetComponent<Collider2D>().bounds.min + Vector2.down * sizeBuffer + Vector2.right * sizeBuffer;
+            grounded = Physics2D.OverlapArea(downLeft, downLeft + Vector2.down * sizeBuffer + Vector2.right * (this.size.x - 2 * sizeBuffer), wallMask);
+            Debug.DrawLine(downLeft, downLeft + Vector2.down * sizeBuffer + Vector2.right * (this.size.x - 2 * sizeBuffer), grounded ? Color.red : Color.white);
             yield return null;
         }
-        while (!Physics2D.Raycast(transform.position, Vector2.down, this.size.y / 2, this.wallMask))
+
+        this.GetComponent<Collider2D>().enabled = true;
+        while (!grounded)
         {
+            Vector2 downLeft = (Vector2)this.GetComponent<Collider2D>().bounds.min + Vector2.down * sizeBuffer + Vector2.right * sizeBuffer;
+            grounded = Physics2D.OverlapArea(downLeft, downLeft + Vector2.down * sizeBuffer + Vector2.right * (this.size.x - 2 * sizeBuffer), wallMask);
+            Debug.DrawLine(downLeft, downLeft + Vector2.down * sizeBuffer + Vector2.right * (this.size.x - 2 * sizeBuffer), grounded ? Color.red : Color.white);
             yield return null;
         }
-        this.grounded = true;
         yield return new WaitForSeconds(this.attackTime);
         this.attacking = false;
     }
 
-    public override void attackTarget()
-    {
-        moveToTarget();
-    }
-
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (grounded) return;
-        if (this.tag == "Enemies" && collision.collider.tag == "Allies" ||
+        if (grounded) Debug.Log("Grounded");
+        else if (this.tag == "Enemies" && collision.collider.tag == "Allies" ||
             collision.collider.tag == "Enemies" && this.tag == "Allies")
             collision.gameObject.GetComponent<Damageable>().takeDamage(this.attackPower, 0, this.gameObject);
     }
